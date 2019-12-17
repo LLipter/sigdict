@@ -23,9 +23,9 @@
         <!-- container -->
         <div class="w3-content" style="max-width:350px">
 
-            <div class="w3-card-4 w3-padding-16 w3-white w3-container w3-margin-bottom" th:if="${error-msg}">
+            <div class="w3-card-4 w3-padding-16 w3-white w3-container w3-margin-bottom" th:if="${has_error}">
                 <div class="w3-center">
-                    <b style="color:red">${error-msg}</b>
+                    <b style="color:red" th:text="${error_msg}">
                 </div>
             </div>
             
