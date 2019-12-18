@@ -1,4 +1,4 @@
-package com.llipter.sigdict;
+package com.llipter.sigdict.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
