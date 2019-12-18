@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.constraints.Null;
-
 @Controller
 public class LoginController {
 
@@ -37,7 +35,7 @@ public class LoginController {
         }else if (!user.getPassword().equals(password)){
             model.addAttribute("has_error", true);
             model.addAttribute("error_msg", "PASSWORD INCORRECT");
-            return "login";           
+            return "login";
         }
         return "main";
     }
