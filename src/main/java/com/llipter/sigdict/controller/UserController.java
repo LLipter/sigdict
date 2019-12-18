@@ -26,9 +26,7 @@ public class UserController {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
+        User user = new User(username, password);
         try{
             userRepository.save(user);
         }catch (Exception e){

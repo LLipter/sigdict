@@ -1,21 +1,44 @@
 package com.llipter.sigdict.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Column;
+import com.llipter.sigdict.security.DigitalSignature;
+import com.llipter.sigdict.security.HashPassword;
+import com.llipter.sigdict.security.Utility;
+
+import javax.persistence.*;
+import java.security.KeyPair;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class User {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(unique = true)
     private String username;
 
-    private String password;
+    private String hashed_password;
+
+    private String salt;
+
+    @Column(length=2048)
+    private String public_key;
+
+    @Column(length=1024)
+    private String private_key;
+
+    public User() {
+
+    }
+
+    public User(String username, String password) {
+        byte[] salt = HashPassword.getSalt();
+        this.setUsername(username);
+        this.setHashed_password(HashPassword.getHashedPassword(password, salt));
+        KeyPair keyPair = DigitalSignature.generateKeyPair();
+        this.setSalt(Utility.binary2base64(salt));
+        this.setPrivate_key(Utility.binary2base64(keyPair.getPrivate().getEncoded()));
+        this.setPublic_key(Utility.binary2base64(keyPair.getPublic().getEncoded()));
+    }
 
     public Integer getId() {
         return id;
@@ -33,11 +56,42 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getHashed_password() {
+        return hashed_password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setHashed_password(String hashed_password) {
+        this.hashed_password = hashed_password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public String getPublic_key() {
+        return public_key;
+    }
+
+    public void setPublic_key(String public_key) {
+        this.public_key = public_key;
+    }
+
+    public String getPrivate_key() {
+        return private_key;
+    }
+
+    public void setPrivate_key(String private_key) {
+        this.private_key = private_key;
+    }
+
+    public boolean validatePassword(String password) {
+        String hashedPassword = HashPassword.getHashedPassword(password, Utility.base642binary(this.getSalt()));
+        if (hashedPassword.equals(this.getHashed_password()))
+            return true;
+        return false;
     }
 }

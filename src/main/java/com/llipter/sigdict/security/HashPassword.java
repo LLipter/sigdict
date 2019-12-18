@@ -33,7 +33,7 @@ public class HashPassword {
             KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 256);
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             byte[] bytes = factory.generateSecret(spec).getEncoded();
-            hashedPassword = Utility.binary2hexadecimal(bytes);
+            hashedPassword = Utility.binary2base64(bytes);
         } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }

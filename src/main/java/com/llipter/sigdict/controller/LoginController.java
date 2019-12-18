@@ -32,7 +32,7 @@ public class LoginController {
             model.addAttribute("has_error", true);
             model.addAttribute("error_msg", "USER NOT EXISTED");
             return "login";
-        }else if (!user.getPassword().equals(password)){
+        }else if (!user.validatePassword(password)){
             model.addAttribute("has_error", true);
             model.addAttribute("error_msg", "PASSWORD INCORRECT");
             return "login";
