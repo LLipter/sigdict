@@ -4,6 +4,10 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.SecretKeyFactory;
 
 public class HashPassword {
 
@@ -27,17 +31,12 @@ public class HashPassword {
     public static String getHashedPassword(String password, byte[] salt) {
         String hashedPassword = null;
         try {
-            // Create MessageDigest instance for MD5
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
-            // Add password bytes to digest
-            md.update(salt);
-            // Get the hash's bytes
-            byte[] bytes = md.digest(password.getBytes("UTF-8"));
-            // Convert it to hexadecimal format
+            // PBKDF2
+            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 256);
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            byte[] bytes = factory.generateSecret(spec).getEncoded();
             hashedPassword = Utility.binary2hexadecimal(bytes);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
+        } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
         return hashedPassword;
