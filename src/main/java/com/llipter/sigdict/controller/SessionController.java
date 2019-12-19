@@ -76,4 +76,11 @@ public abstract class SessionController {
 
         deleteSession(session);
     }
+
+    public User getUserFromSession(HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        String sessionId = Session.getSessionIdFromCookies(cookies);
+        Session session = sessionRepository.findBySessionId(sessionId);
+        return session.getUser();
+    }
 }

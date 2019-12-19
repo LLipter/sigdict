@@ -1,6 +1,7 @@
 package com.llipter.sigdict.controller;
 
 import com.llipter.sigdict.Utility;
+import com.llipter.sigdict.entity.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,9 @@ public class MainController extends SessionController {
             Utility.addErrorMessage(model, "PLEASE SIGN IN FIRST");
             return "login";
         }
+
+        User user = getUserFromSession(request);
+        Utility.addUserMessage(model, user);
         return "main";
     }
 }

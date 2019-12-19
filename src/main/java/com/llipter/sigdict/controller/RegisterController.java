@@ -67,6 +67,6 @@ public class RegisterController extends SessionController {
         Session.setSessionCookie(response, user.getSession().getSessionId());
         userRepository.save(user);
 
-        return "main";
+        return "redirect:/main.html";
     }
 }

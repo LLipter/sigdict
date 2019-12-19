@@ -1,5 +1,6 @@
 package com.llipter.sigdict;
 
+import com.llipter.sigdict.entity.User;
 import org.springframework.ui.Model;
 
 import javax.mail.internet.AddressException;
@@ -36,6 +37,12 @@ public class Utility {
     public static void addErrorMessage(Model model, String errorMessage) {
         model.addAttribute("has_error", true);
         model.addAttribute("error_msg", errorMessage);
+    }
+
+    public static void addUserMessage(Model model, User user) {
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("email", user.getEmail());
+        model.addAttribute("pubkey", user.getPublicKey());
     }
 
     public static boolean isAsciiDigit(char c) {
@@ -77,7 +84,7 @@ public class Utility {
         if (username.length() > 18)
             return false;
         for (char c : username.toCharArray()) {
-            if (!isAsciiLetterOrDigit(c) && c != '_'){
+            if (!isAsciiLetterOrDigit(c) && c != '_') {
                 return false;
             }
 
