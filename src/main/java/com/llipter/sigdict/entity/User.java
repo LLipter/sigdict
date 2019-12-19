@@ -2,7 +2,7 @@ package com.llipter.sigdict.entity;
 
 import com.llipter.sigdict.security.DigitalSignature;
 import com.llipter.sigdict.security.HashPassword;
-import com.llipter.sigdict.security.Utility;
+import com.llipter.sigdict.Utility;
 
 import javax.persistence.*;
 import java.security.KeyPair;
@@ -27,6 +27,9 @@ public class User {
 
     @Column(length=1024)
     private String private_key;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Session session;
 
     public User() {
 

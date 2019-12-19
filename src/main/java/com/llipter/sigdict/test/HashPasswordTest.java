@@ -1,7 +1,7 @@
 package com.llipter.sigdict.test;
 
 import com.llipter.sigdict.security.HashPassword;
-import com.llipter.sigdict.security.Utility;
+import com.llipter.sigdict.Utility;
 
 public class HashPasswordTest {
     public static void main(String[] args) {
