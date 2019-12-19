@@ -11,7 +11,7 @@ import java.security.KeyPair;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer uid;
 
     @Column(unique = true)
     private String username;
@@ -43,12 +43,12 @@ public class User {
         this.setPublic_key(Utility.binary2base64(keyPair.getPublic().getEncoded()));
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getUid() {
+        return uid;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUid(Integer uid) {
+        this.uid = uid;
     }
 
     public String getUsername() {
