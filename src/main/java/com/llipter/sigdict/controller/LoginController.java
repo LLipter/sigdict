@@ -26,7 +26,7 @@ public class LoginController extends SessionController {
         return "login";
     }
 
-    @RequestMapping(value = "/login.html", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@RequestParam(name = "username", required = true) String username,
                         @RequestParam(name = "password", required = true) String password,
                         Model model,
