@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 public class LoginController {
 
@@ -28,7 +31,10 @@ public class LoginController {
     @RequestMapping(value = "/login.html", method = RequestMethod.POST)
     public String login(@RequestParam(name = "username", required = true) String username,
                         @RequestParam(name = "password", required = true) String password,
-                        Model model) {
+                        Model model,
+                        HttpServletResponse response) {
+
+
         User user = userRepository.findByUsername(username);
         if (user == null) {
             model.addAttribute("has_error", true);
@@ -41,20 +47,14 @@ public class LoginController {
         }
 
         // login successfully
+        // set new session
+        user.setSession(new Session(user));
         Session session = user.getSession();
-        if(session == null){
-            // set new session
-            user.setSession(new Session(user));
-            session = user.getSession();
-
-        }else{
-            
-        }
-
-
+        // set cookie
+        Cookie cookie = new Cookie("SESSION_ID", session.getSessionId());
+        response.addCookie(cookie);
         userRepository.save(user);
-
-
+        
         return "redirect:/main.html";
     }
 }
