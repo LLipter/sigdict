@@ -9,17 +9,30 @@ import java.sql.Timestamp;
 public class Session {
     public static final int SESSION_ID_SIZE = 16;
 
+    // Session will be valid for 30 minutes
+    public static final int SESSION_VALID_TIME_SPAN = 30 * 60 * 1000;
+
     @Id
     private Integer uid;
 
     private String sessionId;
 
     @Basic
-    private java.sql.Timestamp validThrough;
+    private Timestamp validThrough;
 
     @OneToOne
     @MapsId // @MapsId tells Hibernate to use the id column of this entity as both primary key and foreign key.
     private User user;
+
+    public Session() {
+        this.setSessionId(generateSessionId());
+        this.setValidThrough(new Timestamp(System.currentTimeMillis() + SESSION_VALID_TIME_SPAN));
+    }
+
+    public Session(User user){
+        this();
+        this.setUser(user);
+    }
 
     public Integer getUid() {
         return uid;

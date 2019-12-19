@@ -102,6 +102,14 @@ public class User {
         this.privateKey = private_key;
     }
 
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
     public boolean validatePassword(String password) {
         String hashedPassword = HashPassword.getHashedPassword(password, Utility.base642binary(this.getSalt()));
         if (hashedPassword.equals(this.getHashedPassword()))
