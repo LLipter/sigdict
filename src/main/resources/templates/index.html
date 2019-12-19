@@ -57,16 +57,27 @@
         <div class="w3-col m12 l6">
             <div class="w3-card-4 w3-padding-24 w3-white w3-container">
                 <div class="w3-container">
-                    <h3><b>JOIN US NOW!</b></h3>
+                    <h3>
+                        <b th:if="${has_signed_in}">Hi, <span th:text="${username}"></span> !</b>
+                        <b th:unless="${has_signed_in}">JOIN US NOW!</b>
+                    </h3>
                 </div>
                 <div class="w3-row-padding">
                     <div class="w3-container w3-half w3-center">
-                        <button class="w3-button w3-border" onclick="window.location.href='/login.html';">
+                        <button class="w3-button w3-border" onclick="window.location.href='/main.html';" th:if="${has_signed_in}">
+                            <b>MY ACCOUNT »</b>
+                        </button>
+                        <button class="w3-button w3-border" onclick="window.location.href='/login.html';" th:unless="${has_signed_in}">
                             <b>SIGN IN »</b>
                         </button>
                     </div>
                     <div class="w3-container w3-half w3-center">
-                        <button class="w3-button w3-border" onclick="window.location.href='/register.html';">
+                        <form th:action="@{/logout}" method="post" th:if="${has_signed_in}">
+                            <button class="w3-button w3-border" >
+                                <b>LOGOUT »</b>
+                            </button>
+                        </form>
+                        <button class="w3-button w3-border" onclick="window.location.href='/register.html';" th:unless="${has_signed_in}">
                             <b>SIGN UP »</b>
                         </button>
                     </div>

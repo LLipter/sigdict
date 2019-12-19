@@ -40,6 +40,7 @@ public class Utility {
     }
 
     public static void addUserMessage(Model model, User user) {
+        model.addAttribute("has_signed_in", true);
         model.addAttribute("username", user.getUsername());
         model.addAttribute("email", user.getEmail());
         model.addAttribute("pubkey", user.getPublicKey());
