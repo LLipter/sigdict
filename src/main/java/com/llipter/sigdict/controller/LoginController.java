@@ -3,8 +3,6 @@ package com.llipter.sigdict.controller;
 import com.llipter.sigdict.Utility;
 import com.llipter.sigdict.entity.Session;
 import com.llipter.sigdict.entity.User;
-import com.llipter.sigdict.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +18,7 @@ public class LoginController extends SessionController {
 
 
     @RequestMapping(value = "/login.html", method = RequestMethod.GET)
-    public String loginPage(@RequestParam(name = "error_msg", required = false, defaultValue = "") String error_msg, Model model) {
-        model.addAttribute("has_error", !error_msg.isEmpty());
-        model.addAttribute("error_msg", error_msg);
+    public String getLoginPage() {
         return "login";
     }
 

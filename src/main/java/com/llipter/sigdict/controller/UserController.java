@@ -5,7 +5,6 @@ import com.llipter.sigdict.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,9 +27,9 @@ public class UserController {
         // @RequestParam means it is a parameter from the GET or POST request
 
         User user = new User(username, password, email);
-        try{
+        try {
             userRepository.save(user);
-        }catch (Exception e){
+        } catch (Exception e) {
             return "Duplicate username";
         }
         return "Saved";
