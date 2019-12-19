@@ -12,10 +12,10 @@ public class Session {
     @Id
     private Integer uid;
 
-    private String session_id;
+    private String sessionId;
 
     @Basic
-    private java.sql.Timestamp valid_through;
+    private java.sql.Timestamp validThrough;
 
     @OneToOne
     @MapsId // @MapsId tells Hibernate to use the id column of this entity as both primary key and foreign key.
@@ -29,20 +29,20 @@ public class Session {
         this.uid = uid;
     }
 
-    public String getSession_id() {
-        return session_id;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public void setSession_id(String session_id) {
-        this.session_id = session_id;
+    public void setSessionId(String session_id) {
+        this.sessionId = session_id;
     }
 
-    public Timestamp getValid_through() {
-        return valid_through;
+    public Timestamp getValidThrough() {
+        return validThrough;
     }
 
-    public void setValid_through(Timestamp valid_through) {
-        this.valid_through = valid_through;
+    public void setValidThrough(Timestamp valid_through) {
+        this.validThrough = valid_through;
     }
 
     public User getUser() {

@@ -16,17 +16,17 @@ public class User {
     @Column(unique = true)
     private String username;
 
-    private String hashed_password;
+    private String hashedPassword;
 
     private String email;
 
     private String salt;
 
     @Column(length=2048)
-    private String public_key;
+    private String publicKey;
 
     @Column(length=1024)
-    private String private_key;
+    private String privateKey;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Session session;
@@ -38,12 +38,12 @@ public class User {
     public User(String username, String password, String email) {
         byte[] salt = HashPassword.getSalt();
         this.setUsername(username);
-        this.setHashed_password(HashPassword.getHashedPassword(password, salt));
+        this.setHashedPassword(HashPassword.getHashedPassword(password, salt));
         KeyPair keyPair = DigitalSignature.generateKeyPair();
         this.setEmail(email);
         this.setSalt(Utility.binary2base64(salt));
-        this.setPrivate_key(Utility.binary2base64(keyPair.getPrivate().getEncoded()));
-        this.setPublic_key(Utility.binary2base64(keyPair.getPublic().getEncoded()));
+        this.setPrivateKey(Utility.binary2base64(keyPair.getPrivate().getEncoded()));
+        this.setPublicKey(Utility.binary2base64(keyPair.getPublic().getEncoded()));
     }
 
     public Integer getUid() {
@@ -62,12 +62,12 @@ public class User {
         this.username = username;
     }
 
-    public String getHashed_password() {
-        return hashed_password;
+    public String getHashedPassword() {
+        return hashedPassword;
     }
 
-    public void setHashed_password(String hashed_password) {
-        this.hashed_password = hashed_password;
+    public void setHashedPassword(String hashed_password) {
+        this.hashedPassword = hashed_password;
     }
 
     public String getEmail() {
@@ -86,25 +86,25 @@ public class User {
         this.salt = salt;
     }
 
-    public String getPublic_key() {
-        return public_key;
+    public String getPublicKey() {
+        return publicKey;
     }
 
-    public void setPublic_key(String public_key) {
-        this.public_key = public_key;
+    public void setPublicKey(String public_key) {
+        this.publicKey = public_key;
     }
 
-    public String getPrivate_key() {
-        return private_key;
+    public String getPrivateKey() {
+        return privateKey;
     }
 
-    public void setPrivate_key(String private_key) {
-        this.private_key = private_key;
+    public void setPrivateKey(String private_key) {
+        this.privateKey = private_key;
     }
 
     public boolean validatePassword(String password) {
         String hashedPassword = HashPassword.getHashedPassword(password, Utility.base642binary(this.getSalt()));
-        if (hashedPassword.equals(this.getHashed_password()))
+        if (hashedPassword.equals(this.getHashedPassword()))
             return true;
         return false;
     }
