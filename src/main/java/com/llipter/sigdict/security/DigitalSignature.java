@@ -5,7 +5,7 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 
 public class DigitalSignature {
-    public static KeyPair generateKeyPair(){
+    public static KeyPair generateKeyPair() {
         KeyPairGenerator keyPairGenerator = null;
         try {
             keyPairGenerator = KeyPairGenerator.getInstance("DSA");

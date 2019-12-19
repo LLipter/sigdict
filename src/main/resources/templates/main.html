@@ -1,10 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    Good job!
-</body>
+<html>
+
+    <head>
+        <title>SigDict - My Account</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    </head>
+
+
+    <body class="w3-light-grey">
+
+        <!-- container -->
+        <div class="w3-content" style="max-width:500px">
+            <!-- Header -->
+            <div class="w3-container w3-center w3-padding-48"> 
+                <h1><b>Welcome to SigDict</b></h1>
+                <p>A modern solution for managing <span class="w3-tag"><b>digital signature</b></span></p>
+            </div>
+        </div>
+
+        <!-- container -->
+        <div class="w3-content" style="max-width:1000px">
+
+            <div class="w3-card-4 w3-white">
+                <img src="https://www.w3schools.com/w3images/bridge.jpg" style="width:100%">
+            </div>
+
+
+
+            <div class="w3-card-4 w3-white w3-margin-top w3-padding-16 w3-container">
+                <div class="w3-container">
+                    <h3>
+                        <b>Account Information</b>
+                    </h3>
+                    <p>Username: Ran</p>
+                    <p>
+                        Email: llipter@foxmail.com
+                        <!-- <span class="w3-right"><b>VERIFIED ✅</b></span> -->
+                        <a href="#" class="w3-right"><b>VERIFY YOUR EMAIL ADDRESS »</b></a>
+                    </p>
+                    <p>
+                        Public Key:
+                        <a onclick="show_hide_pubkey()" class="w3-right" style="cursor:pointer;text-decoration:underline;"><b id="show_hide_btn">SHOW »</b></a>
+                    </p>
+                    <div id="pubkey" class="w3-hide">
+                        <p style="word-wrap:break-word"> 
+                            MIIDQjCCAjUGByqGSM44BAEwggIoAoIBAQCPeTXZuarpv6vtiHrPSVG28y7FnjuvNxjo6sSWHz79NgbnQ1GpxBgzObgJ58KuHFObp0dbhdARrbi0eYd1SYRpXKwOjxSzNggooi/6JxEKPWKpk0U0CaD+aWxGWPhL3SCBnDcJoBBXsZWtzQAjPbpUhLYpH51kjviDRIZ3l5zsBLQ0pqwudemYXeI9sCkvwRGMn/qdgYHnM423krcw17njSVkvaAmYchU5Feo9a4tGU8YzRY+AOzKkwuDycpAlbk4/ijsIOKHEUOThjBopo33fXqFD3ktm/wSQPtXPFiPhWNSHxgjpfyEc2B3KI8tuOAdl+CLjQr5ITAV2OTlgHNZnAh0AuvaWpoV499/e5/pnyXfHhe8ysjO65YDAvNVpXQKCAQAWplxYIEhQcE51AqOXVwQNNNo6NHjBVNTkpcAtJC7gT5bmHkvQkEq9rI837rHgnzGC0jyQQ8tkL4gAQWDt+coJsyB2p5wypifyRz6Rh5uixOdEvSCBVEy1W4AsNo0fqD7UielOD6BojjJCilx4xHjGjQUntxyaOrsLC+EsRGiWOefTznTbEBplqiuH9kxoJts+xy9LVZmDS7TtsC98kOmkltOlXVNb6/xF1PYZ9j897buHOSXC8iTgdzEpbaiH7B5HSPh++1/et1SEMWsiMt7lU92vAhErDR8C2jCXMiT+J67ai51LKSLZuovjntnhA6Y8UoELxoi34u1DFuHvF9veA4IBBQACggEAQQ4ATUn5hzeWINQ2mcUhX9LMKB0hEnsdUG2I+yUUcAXx0COGTc/Vjz6CbLTWRIuBJaCR7K3RXm8gCMmhNy2SF7h2ky833ROPh5iKaDah5fbCiU04qnfxbBWByuJ7GUIKza0mERVf8lp8DST0cNcLZuQFgTqIam23WEOWaOBI/02Nc0dyJbJp8VY4+YSWM846sQhLR7HYFW8OVWbRrtvM6Y5WK/qOoGvflIFRuNgursRwKLY4iRwjj31mtrcN2KiPq3SiVkinD/vspO2DD99Pf1Ig2FNzE7X6WQ8tc42a4VLFJBTo7lwg6x3se2eAf6eM4dwdGl6s/BQkwQu5O2Sd0A==
+                        </p>
+                    </div>
+
+                    <div class="w3-row">
+                        <div class="w3-col m3 s12 w3-center">
+                            <p><button class="w3-button w3-white w3-border" style="width:210px;"><b>CHANGE KEY</b></button></p>
+                        </div>
+                        <div class="w3-col m3 s12 w3-center">
+                            <p><button class="w3-button w3-white w3-border" style="width:210px;"><b>CHANGE PASSWORD</b></button></p>
+                        </div>
+                        <div class="w3-col m3 s12 w3-center">
+                            <p><button class="w3-button w3-white w3-border" style="width:210px;"><b>CHANGE EMAIL</b></button></p>
+                        </div>
+                        <div class="w3-col m3 s12 w3-center">
+                            <p><button class="w3-button w3-white w3-border" style="width:210px;"><b>LOG OUT</b></button></p>
+                        </div>
+                    </div>
+                        
+
+                </div>
+            
+
+            </div>
+
+            <div class="w3-card-4 w3-white w3-margin-top w3-padding-16 w3-container">
+                <div class="w3-container">
+                    <input class="w3-input w3-border w3-padding" type="text" placeholder="Search for names.." id="search_bar" onkeyup="filter_search()">
+
+                    <table class="w3-table-all w3-margin-top" id="signature_table">
+                        <tr>
+                          <th style="width:60%;">Name</th>
+                          <th style="width:40%;">Country</th>
+                        </tr>
+                        <tr>
+                          <td>Alfreds Futterkiste</td>
+                          <td>Germany</td>
+                        </tr>
+                        <tr>
+                          <td>Berglunds snabbkop</td>
+                          <td>Sweden</td>
+                        </tr>
+                        <tr>
+                          <td>Island Trading</td>
+                          <td>UK</td>
+                        </tr>
+                        <tr>
+                          <td>Koniglich Essen</td>
+                          <td>Germany</td>
+                        </tr>
+                        <tr>
+                          <td>Laughing Bacchus Winecellars</td>
+                          <td>Canada</td>
+                        </tr>
+                        <tr>
+                          <td>Magazzini Alimentari Riuniti</td>
+                          <td>Italy</td>
+                        </tr>
+                        <tr>
+                          <td>North/South</td>
+                          <td>UK</td>
+                        </tr>
+                        <tr>
+                          <td>Paris specialites</td>
+                          <td>France</td>
+                        </tr>
+                      </table>
+                    
+                </div>
+                <div class="w3-container">
+                    <p>Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at. Phasellus sed ultricies mi non congue ullam corper. Praesent tincidunt sed
+                    tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
+                    <div class="w3-row">
+                        <div class="w3-col m8 s12">
+                            <p><button class="w3-button w3-padding-large w3-white w3-border"><b>READ MORE »</b></button></p>
+                        </div>
+                        <div class="w3-col m4 w3-hide-small">
+                          <p><span class="w3-padding-large w3-right"><b>Comments  </b> <span class="w3-badge">2</span></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+    <script>
+        function show_hide_pubkey() {
+            var x = document.getElementById("pubkey");
+            var y = document.getElementById("show_hide_btn");
+          if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+            y.innerHTML = "HIDE »"
+          } else {
+            x.className = x.className.replace(" w3-show", "");
+            y.innerHTML = "SHOW »"
+          }
+        }
+    </script>
+    <script>
+        function filter_search() {
+          var input, filter, table, tr, td, i;
+          input = document.getElementById("search_bar");
+          filter = input.value.toUpperCase();
+          table = document.getElementById("signature_table");
+          tr = table.getElementsByTagName("tr");
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+              txtValue = td.textContent || td.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }
+          }
+        }
+    </script>
+
 </html>
