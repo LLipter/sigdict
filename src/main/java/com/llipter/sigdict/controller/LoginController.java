@@ -47,11 +47,8 @@ public class LoginController extends SessionController {
         // login successfully
         // set new session
         user.setSession(new Session(user));
-        Session session = user.getSession();
         // set cookie
-        Cookie cookie = new Cookie(Session.SESSION_COOKIE_NAME, session.getSessionId());
-        cookie.setMaxAge(Session.SESSION_VALID_TIME_SPAN / 1000);
-        response.addCookie(cookie);
+        Session.setSessionCookie(response, user.getSession().getSessionId());
         userRepository.save(user);
 
         return "redirect:/main.html";

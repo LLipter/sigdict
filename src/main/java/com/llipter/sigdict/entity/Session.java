@@ -4,6 +4,7 @@ import com.llipter.sigdict.Utility;
 
 import javax.persistence.*;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -11,7 +12,8 @@ public class Session {
     public static final int SESSION_ID_SIZE = 16;
 
     // Session will be valid for 30 minutes
-    public static final int SESSION_VALID_TIME_SPAN = 30 * 60 * 1000;
+    public static final int SESSION_VALID_TIME_SPAN_SECOND = 30 * 60;
+    public static final int SESSION_VALID_TIME_SPAN_MILLISECOND = SESSION_VALID_TIME_SPAN_SECOND * 1000;
 
     public static final String SESSION_COOKIE_NAME = "SESSION_ID";
 
@@ -86,6 +88,12 @@ public class Session {
     }
 
     public static Timestamp getRefreshedValidThrough() {
-        return new Timestamp(System.currentTimeMillis() + SESSION_VALID_TIME_SPAN);
+        return new Timestamp(System.currentTimeMillis() + SESSION_VALID_TIME_SPAN_MILLISECOND);
+    }
+
+    public static void setSessionCookie(HttpServletResponse response, String sessionId) {
+        Cookie cookie = new Cookie(SESSION_COOKIE_NAME, sessionId);
+        cookie.setMaxAge(SESSION_VALID_TIME_SPAN_SECOND);
+        response.addCookie(cookie);
     }
 }
