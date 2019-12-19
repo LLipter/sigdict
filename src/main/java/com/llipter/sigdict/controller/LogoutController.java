@@ -20,6 +20,6 @@ public class LogoutController extends SessionController {
             return "login";
         }
         deleteSession(request);
-        return "redirect:/login.html";
+        return "redirect:/index.html";
     }
 }

@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <div class="w3-card-4 w3-padding-24 w3-white w3-container">
+    <div class="w3-card-4 w3-padding-24 w3-white w3-container w3-margin-bottom">
         <form class="w3-padding" th:action="@{/register}" method="post">
             <b>Username:</b>
             <input class="w3-input w3-hover-light-grey w3-margin-bottom" name="username" type="text">
@@ -47,6 +47,31 @@
                 <button class="w3-button w3-border" type="submit"><b>SIGN UP »</b></button>
             </div>
         </form>
+    </div>
+
+    <div class="w3-card-4 w3-padding-16 w3-white w3-container w3-margin-bottom">
+        <div class="" style="font-size:10px">
+            <p style="color:dimgrey">
+                A <b>valid username</b> must contain no less than <i>6</i> characters and no more than <i>18</i>
+                characters.
+                Each character must be must one of the followings:
+                <i>ASCII digit</i>,
+                <i>ASCII letter</i> and
+                <i>'_'</i>.
+            </p>
+            <p style="color:dimgrey">
+                A <b>valid password</b> must contain no less than <i>6</i> characters and no more than <i>18</i>
+                characters.
+                Each character must be a printable <i>ASCII character</i>.
+                The password must contain
+                <i>uppercase letter</i>,
+                <i>lowercase letter</i>,
+                <i>digit</i>,
+                <i>special character</i>
+                at the same time.
+            </p>
+
+        </div>
     </div>
 
 </div>
