@@ -75,6 +75,8 @@ public class Session {
     }
 
     public static String getSessionIdFromCookies(Cookie[] cookies) {
+        if (cookies == null)
+            return null;
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(SESSION_COOKIE_NAME)) {
                 return cookie.getValue();

@@ -40,11 +40,7 @@ public abstract class SessionController {
         Timestamp now = new Timestamp(System.currentTimeMillis());
         if (now.after(session.getValidThrough())) {
             // delete expired session
-            User user = session.getUser();
-            session.setUser(null);
-            user.setSession(null);
-            userRepository.save(user);
-            sessionRepository.delete(session);
+            deleteSession(session);
             return false;
         }
 
@@ -58,5 +54,26 @@ public abstract class SessionController {
     public void refreshSession(Session session) {
         session.setValidThrough(Session.getRefreshedValidThrough());
         sessionRepository.save(session);
+    }
+
+    public void deleteSession(Session session) {
+        User user = session.getUser();
+        session.setUser(null);
+        user.setSession(null);
+        userRepository.save(user);
+        sessionRepository.delete(session);
+    }
+
+    public void deleteSession(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String sessionId = Session.getSessionIdFromCookies(cookies);
+        if (sessionId == null)
+            return;
+
+        Session session = sessionRepository.findBySessionId(sessionId);
+        if (session == null)
+            return;
+
+        deleteSession(session);
     }
 }
