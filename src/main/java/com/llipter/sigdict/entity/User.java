@@ -18,6 +18,8 @@ public class User {
 
     private String hashed_password;
 
+    private String email;
+
     private String salt;
 
     @Column(length=2048)
@@ -30,11 +32,12 @@ public class User {
 
     }
 
-    public User(String username, String password) {
+    public User(String username, String password, String email) {
         byte[] salt = HashPassword.getSalt();
         this.setUsername(username);
         this.setHashed_password(HashPassword.getHashedPassword(password, salt));
         KeyPair keyPair = DigitalSignature.generateKeyPair();
+        this.setEmail(email);
         this.setSalt(Utility.binary2base64(salt));
         this.setPrivate_key(Utility.binary2base64(keyPair.getPrivate().getEncoded()));
         this.setPublic_key(Utility.binary2base64(keyPair.getPublic().getEncoded()));
@@ -62,6 +65,14 @@ public class User {
 
     public void setHashed_password(String hashed_password) {
         this.hashed_password = hashed_password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getSalt() {

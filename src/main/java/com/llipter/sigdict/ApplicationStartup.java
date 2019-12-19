@@ -24,9 +24,9 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
 
         User user = null;
 
-        user = new User("llipter", "cestlavie");
+        user = new User("llipter", "cestlavie", "llipter@foxmail.com");
         userRepository.save(user);
-        user = new User("epfl", "eth");
+        user = new User("epfl", "eth", "felicitations@admitted.edu");
         userRepository.save(user);
 
     }

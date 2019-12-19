@@ -22,11 +22,12 @@ public class UserController {
     public @ResponseBody
     String addNewUser(
             @RequestParam String username,
-            @RequestParam String password) {
+            @RequestParam String password,
+            @RequestParam String email) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
-        User user = new User(username, password);
+        User user = new User(username, password, email);
         try{
             userRepository.save(user);
         }catch (Exception e){
@@ -35,9 +36,9 @@ public class UserController {
         return "Saved";
     }
 
-    @GetMapping(path="/list")
-    public @ResponseBody Iterable<User> getAllUsers() {
-        // This returns a JSON or XML with the users
-        return userRepository.findAll();
-    }
+//    @GetMapping(path="/list")
+//    public @ResponseBody Iterable<User> getAllUsers() {
+//        // This returns a JSON or XML with the users
+//        return userRepository.findAll();
+//    }
 }
