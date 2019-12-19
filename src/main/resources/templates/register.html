@@ -4,8 +4,8 @@
 <head>
     <title>SigDict - Register</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
 </head>
 
 
@@ -30,7 +30,7 @@
     </div>
 
     <div class="w3-card-4 w3-padding-24 w3-white w3-container w3-margin-bottom">
-        <form class="w3-padding" th:action="@{/register}" method="post">
+        <form class="w3-padding" method="post" th:action="@{/register}">
             <b>Username:</b>
             <input class="w3-input w3-hover-light-grey w3-margin-bottom" name="username" type="text">
             <b>Email:</b>
@@ -40,7 +40,7 @@
             <b>Confirm Password:</b>
             <input class="w3-input w3-hover-light-grey w3-margin-bottom" name="password-confirm" type="password">
             <div class="w3-right w3-margin-bottom">
-                <button type="reset" style="background:none;border:none"><u><b style="font-size:13px">CLEAR</b></u>
+                <button style="background:none;border:none" type="reset"><u><b style="font-size:13px">CLEAR</b></u>
                 </button>
             </div>
             <div class="w3-container w3-center">

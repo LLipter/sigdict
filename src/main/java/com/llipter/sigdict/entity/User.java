@@ -1,8 +1,8 @@
 package com.llipter.sigdict.entity;
 
+import com.llipter.sigdict.Utility;
 import com.llipter.sigdict.security.DigitalSignature;
 import com.llipter.sigdict.security.HashPassword;
-import com.llipter.sigdict.Utility;
 
 import javax.persistence.*;
 import java.security.KeyPair;
@@ -22,10 +22,10 @@ public class User {
 
     private String salt;
 
-    @Column(length=2048)
+    @Column(length = 2048)
     private String publicKey;
 
-    @Column(length=1024)
+    @Column(length = 1024)
     private String privateKey;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

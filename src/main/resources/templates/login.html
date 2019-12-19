@@ -4,8 +4,8 @@
 <head>
     <title>SigDict - Login</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
 </head>
 
 
@@ -30,7 +30,7 @@
     </div>
 
     <div class="w3-card-4 w3-padding-24 w3-white w3-container">
-        <form class="w3-padding" th:action="@{/login}" method="post">
+        <form class="w3-padding" method="post" th:action="@{/login}">
             <b>Username:</b>
             <input class="w3-input w3-hover-light-grey w3-margin-bottom" name="username" type="text">
             <b>Password:</b>

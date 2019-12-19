@@ -40,6 +40,31 @@ public class Session {
         this.setUser(user);
     }
 
+    public static String generateSessionId() {
+        return Utility.binary2base64(Utility.getRandomBytes(SESSION_ID_SIZE));
+    }
+
+    public static String getSessionIdFromCookies(Cookie[] cookies) {
+        if (cookies == null)
+            return null;
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(SESSION_COOKIE_NAME)) {
+                return cookie.getValue();
+            }
+        }
+        return null;
+    }
+
+    public static Timestamp getRefreshedValidThrough() {
+        return new Timestamp(System.currentTimeMillis() + SESSION_VALID_TIME_SPAN_MILLISECOND);
+    }
+
+    public static void setSessionCookie(HttpServletResponse response, String sessionId) {
+        Cookie cookie = new Cookie(SESSION_COOKIE_NAME, sessionId);
+        cookie.setMaxAge(SESSION_VALID_TIME_SPAN_SECOND);
+        response.addCookie(cookie);
+    }
+
     public Integer getUid() {
         return uid;
     }
@@ -70,30 +95,5 @@ public class Session {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public static String generateSessionId() {
-        return Utility.binary2base64(Utility.getRandomBytes(SESSION_ID_SIZE));
-    }
-
-    public static String getSessionIdFromCookies(Cookie[] cookies) {
-        if (cookies == null)
-            return null;
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(SESSION_COOKIE_NAME)) {
-                return cookie.getValue();
-            }
-        }
-        return null;
-    }
-
-    public static Timestamp getRefreshedValidThrough() {
-        return new Timestamp(System.currentTimeMillis() + SESSION_VALID_TIME_SPAN_MILLISECOND);
-    }
-
-    public static void setSessionCookie(HttpServletResponse response, String sessionId) {
-        Cookie cookie = new Cookie(SESSION_COOKIE_NAME, sessionId);
-        cookie.setMaxAge(SESSION_VALID_TIME_SPAN_SECOND);
-        response.addCookie(cookie);
     }
 }

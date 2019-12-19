@@ -4,9 +4,9 @@
 <head>
     <title>SigDict - My Account</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 
@@ -38,14 +38,14 @@
             <p>
                 Email: <span th:text="${email}"></span>
                 <!-- <span class="w3-right"><b>VERIFIED ✅</b></span> -->
-                <a href="#" class="w3-right"><b>VERIFY YOUR EMAIL ADDRESS »</b></a>
+                <a class="w3-right" href="#"><b>VERIFY YOUR EMAIL ADDRESS »</b></a>
             </p>
             <p>
                 Public Key:
-                <a onclick="show_hide_pubkey()" class="w3-right" style="cursor:pointer;text-decoration:underline;"><b
+                <a class="w3-right" onclick="show_hide_pubkey()" style="cursor:pointer;text-decoration:underline;"><b
                         id="show_hide_btn">SHOW »</b></a>
             </p>
-            <div id="pubkey" class="w3-hide">
+            <div class="w3-hide" id="pubkey">
                 <p style="word-wrap:break-word">
                     <span th:text="${pubkey}"></span>
                 </p>
@@ -70,7 +70,7 @@
                 </div>
                 <div class="w3-col m3 s12 w3-center">
                     <p>
-                    <form th:action="@{/logout}" method="post">
+                    <form method="post" th:action="@{/logout}">
                         <button class="w3-button w3-white w3-border" style="width:210px;"><b>LOG OUT</b></button>
                     </form>
                     </p>
@@ -85,8 +85,8 @@
 
     <div class="w3-card-4 w3-white w3-margin-top w3-padding-16 w3-container">
         <div class="w3-container">
-            <input class="w3-input w3-border w3-padding" type="text" placeholder="Search for names.." id="search_bar"
-                   onkeyup="filter_search()">
+            <input class="w3-input w3-border w3-padding" id="search_bar" onkeyup="filter_search()" placeholder="Search for names.."
+                   type="text">
 
             <table class="w3-table-all w3-margin-top" id="signature_table">
                 <tr>
@@ -135,7 +135,7 @@
             <div class="w3-row w3-right">
                 <div class="w3-col">
                     <p>
-                    <form th:action="@{/upload.html}" method="get">
+                    <form method="get" th:action="@{/upload.html}">
                         <button class="w3-button w3-white w3-border" style="width:210px;"><b>UPLOAD FILE</b></button>
                     </form>
                     </p>
