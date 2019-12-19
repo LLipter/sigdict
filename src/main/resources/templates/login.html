@@ -1,49 +1,49 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <title>SigDict - Login</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    </head>
+<head>
+    <title>SigDict - Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
 
 
-    <body class="w3-light-grey">
+<body class="w3-light-grey">
 
-        <!-- container -->
-        <div class="w3-content" style="max-width:500px">
-            <!-- Header -->
-            <div class="w3-container w3-center w3-padding-48"> 
-                <h1><b>Welcome to SigDict</b></h1>
-                <p>A modern solution for managing <span class="w3-tag"><b>digital signature</b></span></p>
-            </div>
+<!-- container -->
+<div class="w3-content" style="max-width:500px">
+    <!-- Header -->
+    <div class="w3-container w3-center w3-padding-48">
+        <h1><b>Welcome to SigDict</b></h1>
+        <p>A modern solution for managing <span class="w3-tag"><b>digital signature</b></span></p>
+    </div>
+</div>
+
+<!-- container -->
+<div class="w3-content" style="max-width:350px">
+
+    <div class="w3-card-4 w3-padding-16 w3-white w3-container w3-margin-bottom" th:if="${has_error}">
+        <div class="w3-center">
+            <b style="color:red" th:text="${error_msg}"></b>
         </div>
+    </div>
 
-        <!-- container -->
-        <div class="w3-content" style="max-width:350px">
-
-            <div class="w3-card-4 w3-padding-16 w3-white w3-container w3-margin-bottom" th:if="${has_error}">
-                <div class="w3-center">
-                    <b style="color:red" th:text="${error_msg}">
-                </div>
+    <div class="w3-card-4 w3-padding-24 w3-white w3-container">
+        <form class="w3-padding" th:action="@{/login.html}" method="post">
+            <b>Username:</b>
+            <input class="w3-input w3-hover-light-grey w3-margin-bottom" name="username" type="text">
+            <b>Password:</b>
+            <input class="w3-input w3-hover-light-grey w3-margin-bottom" name="password" type="password">
+            <div class="w3-right w3-margin-bottom">
+                <a href="#"><b style="font-size:13px">FORGET PASSWORD?</b></a>
             </div>
-            
-            <div class="w3-card-4 w3-padding-24 w3-white w3-container">
-                <form class="w3-padding" th:action="@{/login}" method="post">
-                    <b>Username:</b>
-                    <input class="w3-input w3-hover-light-grey w3-margin-bottom" name="username" type="text">
-                    <b>Password:</b>
-                    <input class="w3-input w3-hover-light-grey w3-margin-bottom" name="password" type="password">
-                    <div class="w3-right w3-margin-bottom">
-                        <a href="#"><b style="font-size:13px">FORGET PASSWORD?</b></a>
-                    </div>
-                    <div class="w3-container w3-center">
-                        <button class="w3-button w3-border" type="submit"><b>SIGN IN »</b></button>
-                    </div>
-                </form>
+            <div class="w3-container w3-center">
+                <button class="w3-button w3-border" type="submit"><b>SIGN IN »</b></button>
             </div>
-        </div>
-    </body>
+        </form>
+    </div>
+</div>
+</body>
 
 </html>
