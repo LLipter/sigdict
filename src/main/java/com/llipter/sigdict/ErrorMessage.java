@@ -24,5 +24,7 @@ public class ErrorMessage {
 
     public static final String EMAIL_INVALID = "EMAIL INVALID";
 
+    public static final String MAX_FILE_SIZE_EXCEEDED = "FILE MUST BE LESS THAN 10 MB";
+
 
 }

@@ -29,13 +29,13 @@
         </div>
     </div>
 
-    <div class="w3-card-4 w3-padding-24 w3-white w3-container">
-        <form class="w3-padding" method="post" th:action="@{/upload}">
+    <div class="w3-card-4 w3-padding-16 w3-white w3-container">
+        <form class="w3-padding" method="post" th:action="@{/upload}" enctype="multipart/form-data">
             <b>File:</b>
-            <input class="w3-input w3-hover-light-grey w3-margin-bottom" name="password" type="file">
+            <input class="w3-input w3-hover-light-grey w3-margin-bottom" name="file" type="file">
 
 
-            <div class="w3-right w3-margin-bottom">
+            <div class="w3-right">
                 <b style="font-size:13px">ENCRYPT FILE</b>
                 <input class="w3-check" type="checkbox" name="encrypted">
             </div>
@@ -46,6 +46,14 @@
 
 
         </form>
+    </div>
+
+    <div class="w3-card-4 w3-padding-16 w3-white w3-container w3-margin-top">
+        <div class="" style="font-size:10px">
+            <p style="color:dimgrey">
+                The <b>maximum file size</b> allowed is <i>10MB</i>.
+            </p>
+        </div>
     </div>
 </div>
 </body>
