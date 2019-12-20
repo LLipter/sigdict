@@ -52,13 +52,13 @@ public class UploadController extends SessionController {
             return "redirect:/upload.html";
         }
 
-        if(!ValidateInput.isValidFilename(file.getOriginalFilename())){
+        if (!ValidateInput.isValidFilename(file.getOriginalFilename())) {
             // malicious filename
             PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.FILENAME_INVALID);
             return "redirect:/upload.html";
         }
 
-        if(!ValidateInput.hasValidExtention(file.getOriginalFilename())){
+        if (!ValidateInput.hasValidExtention(file.getOriginalFilename())) {
             // invalid extension
             PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.FILE_EXTENSION_INVALID);
             return "redirect:/upload.html";

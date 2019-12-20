@@ -3,6 +3,9 @@ package com.llipter.sigdict.test;
 import com.llipter.sigdict.utility.ValidateInput;
 import org.springframework.util.StringUtils;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class UtilityTest {
     public static void main(String[] args) {
         char c = 'b';
@@ -28,5 +31,10 @@ public class UtilityTest {
 
         String filename = ". ";
         System.out.println(StringUtils.getFilenameExtension(filename).toLowerCase());
+
+        Path rootLocation = Paths.get("upload-dir");
+        Path ano = rootLocation.resolve("X");
+
+        System.out.println(ano);
     }
 }

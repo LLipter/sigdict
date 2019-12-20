@@ -2,6 +2,7 @@ package com.llipter.sigdict.entity;
 
 import com.llipter.sigdict.security.DigitalSignature;
 import com.llipter.sigdict.security.HashPassword;
+import com.llipter.sigdict.security.SignatureType;
 import com.llipter.sigdict.utility.Utility;
 
 import javax.persistence.*;
@@ -39,7 +40,7 @@ public class User {
         byte[] salt = HashPassword.getSalt();
         this.setUsername(username);
         this.setHashedPassword(HashPassword.getHashedPassword(password, salt));
-        KeyPair keyPair = DigitalSignature.generateKeyPair();
+        KeyPair keyPair = DigitalSignature.generateKeyPair(SignatureType.DSA);
         this.setEmail(email);
         this.setSalt(Utility.binary2base64(salt));
         this.setPrivateKey(Utility.binary2base64(keyPair.getPrivate().getEncoded()));
