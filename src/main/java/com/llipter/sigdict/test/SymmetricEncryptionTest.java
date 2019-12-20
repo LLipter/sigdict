@@ -14,5 +14,7 @@ public class SymmetricEncryptionTest {
         System.out.println(Utility.binary2base64(encryptedData));
         byte[] decryptedData = SymmetricEncryption.decrypt(key, encryptedData);
         System.out.println(Utility.binary2base64(decryptedData));
+
+//        System.out.println(key.);
     }
 }

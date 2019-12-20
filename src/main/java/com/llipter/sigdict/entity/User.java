@@ -25,17 +25,21 @@ public class User {
 
     private String salt;
 
-    @Column(length = 2048)
-    private String DsaPublicKey;
-
+    // 838
     @Column(length = 1024)
-    private String DsaPrivateKey;
+    private byte[] DsaPublicKey;
 
+    // 608-609
+    @Column(length = 1024)
+    private byte[] DsaPrivateKey;
+
+    // 294
     @Column(length = 512)
-    private String RsaPublicKey;
+    private byte[] RsaPublicKey;
 
+    // 1217 - 1219
     @Column(length = 2048)
-    private String RsaPrivateKey;
+    private byte[] RsaPrivateKey;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Session session;
@@ -56,11 +60,19 @@ public class User {
         this.setUploadedFiles(new ArrayList<>());
 
         KeyPair keyPair = DigitalSignature.generateKeyPair(SignatureType.DSA);
-        this.setDsaPrivateKey(Utility.binary2base64(keyPair.getPrivate().getEncoded()));
-        this.setDsaPublicKey(Utility.binary2base64(keyPair.getPublic().getEncoded()));
+        this.setDsaPrivateKey(keyPair.getPrivate().getEncoded());
+        this.setDsaPublicKey(keyPair.getPublic().getEncoded());
         keyPair = DigitalSignature.generateKeyPair(SignatureType.RSA);
-        this.setRsaPrivateKey(Utility.binary2base64(keyPair.getPrivate().getEncoded()));
-        this.setRsaPublicKey(Utility.binary2base64(keyPair.getPublic().getEncoded()));
+        this.setRsaPrivateKey(keyPair.getPrivate().getEncoded());
+        this.setRsaPublicKey(keyPair.getPublic().getEncoded());
+    }
+
+
+    public boolean validatePassword(String password) {
+        String hashedPassword = HashPassword.getHashedPassword(password, Utility.base642binary(this.getSalt()));
+        if (hashedPassword.equals(this.getHashedPassword()))
+            return true;
+        return false;
     }
 
     public Integer getUid() {
@@ -103,35 +115,35 @@ public class User {
         this.salt = salt;
     }
 
-    public String getDsaPublicKey() {
+    public byte[] getDsaPublicKey() {
         return DsaPublicKey;
     }
 
-    public void setDsaPublicKey(String dsaPublicKey) {
+    public void setDsaPublicKey(byte[] dsaPublicKey) {
         DsaPublicKey = dsaPublicKey;
     }
 
-    public String getDsaPrivateKey() {
+    public byte[] getDsaPrivateKey() {
         return DsaPrivateKey;
     }
 
-    public void setDsaPrivateKey(String dsaPrivateKey) {
+    public void setDsaPrivateKey(byte[] dsaPrivateKey) {
         DsaPrivateKey = dsaPrivateKey;
     }
 
-    public String getRsaPublicKey() {
+    public byte[] getRsaPublicKey() {
         return RsaPublicKey;
     }
 
-    public void setRsaPublicKey(String rsaPublicKey) {
+    public void setRsaPublicKey(byte[] rsaPublicKey) {
         RsaPublicKey = rsaPublicKey;
     }
 
-    public String getRsaPrivateKey() {
+    public byte[] getRsaPrivateKey() {
         return RsaPrivateKey;
     }
 
-    public void setRsaPrivateKey(String rsaPrivateKey) {
+    public void setRsaPrivateKey(byte[] rsaPrivateKey) {
         RsaPrivateKey = rsaPrivateKey;
     }
 
@@ -149,12 +161,5 @@ public class User {
 
     public void setUploadedFiles(List<UploadedFile> uploadedFiles) {
         this.uploadedFiles = uploadedFiles;
-    }
-
-    public boolean validatePassword(String password) {
-        String hashedPassword = HashPassword.getHashedPassword(password, Utility.base642binary(this.getSalt()));
-        if (hashedPassword.equals(this.getHashedPassword()))
-            return true;
-        return false;
     }
 }

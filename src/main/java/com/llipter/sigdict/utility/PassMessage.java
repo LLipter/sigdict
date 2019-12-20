@@ -24,6 +24,6 @@ public class PassMessage {
         model.addAttribute("has_signed_in", true);
         model.addAttribute("username", user.getUsername());
         model.addAttribute("email", user.getEmail());
-        model.addAttribute("pubkey", user.getDsaPublicKey());
+        model.addAttribute("pubkey", Utility.binary2base64(user.getDsaPublicKey()));
     }
 }
