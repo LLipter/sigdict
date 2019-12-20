@@ -41,13 +41,25 @@
                 <a class="w3-right" href="#"><b>VERIFY YOUR EMAIL ADDRESS »</b></a>
             </p>
             <p>
-                Public Key:
-                <a class="w3-right" onclick="show_hide_pubkey()" style="cursor:pointer;text-decoration:underline;"><b
-                        id="show_hide_btn">SHOW »</b></a>
+                DSA Public Key:
+                <a class="w3-right" onclick="show_hide('dsa_pubkey', 'show_hide_btn_dsa')"
+                   style="cursor:pointer;text-decoration:underline;"><b
+                        id="show_hide_btn_dsa">SHOW »</b></a>
             </p>
-            <div class="w3-hide" id="pubkey">
+            <div class="w3-hide" id="dsa_pubkey">
                 <p style="word-wrap:break-word">
-                    <span th:text="${pubkey}"></span>
+                    <span th:text="${dsa_pubkey}"></span>
+                </p>
+            </div>
+            <p>
+                RSA Public Key:
+                <a class="w3-right" onclick="show_hide('rsa_pubkey', 'show_hide_btn_rsa')"
+                   style="cursor:pointer;text-decoration:underline;"><b
+                        id="show_hide_btn_rsa">SHOW »</b></a>
+            </p>
+            <div class="w3-hide" id="rsa_pubkey">
+                <p style="word-wrap:break-word">
+                    <span th:text="${rsa_pubkey}"></span>
                 </p>
             </div>
 
@@ -148,9 +160,9 @@
 </div>
 </body>
 <script>
-    function show_hide_pubkey() {
-        var x = document.getElementById("pubkey");
-        var y = document.getElementById("show_hide_btn");
+    function show_hide(id_block, id_btn) {
+        var x = document.getElementById(id_block);
+        var y = document.getElementById(id_btn);
         if (x.className.indexOf("w3-show") == -1) {
             x.className += " w3-show";
             y.innerHTML = "HIDE »"
