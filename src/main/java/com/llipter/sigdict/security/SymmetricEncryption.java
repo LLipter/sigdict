@@ -9,7 +9,7 @@ import java.security.SecureRandom;
 
 public class SymmetricEncryption {
 
-    private static SecretKey masterKey;
+    private static SecretKey applicationMasterKey;
 
     private static int AES_KEY_SIZE = 256;
 
@@ -92,15 +92,19 @@ public class SymmetricEncryption {
         return decryptedData;
     }
 
-    public static SecretKey getMasterKey() {
-        return masterKey;
+    public static SecretKey getApplicationMasterKey() {
+        return applicationMasterKey;
     }
 
-    public static void setMasterKey(SecretKey masterKey) {
-        SymmetricEncryption.masterKey = masterKey;
+    public static void setApplicationMasterKey(SecretKey applicationMasterKey) {
+        SymmetricEncryption.applicationMasterKey = applicationMasterKey;
     }
 
-    public static void generateMasterKey() {
-        setMasterKey(generateKey());
+    public static void generateApplicationMasterKey() {
+        setApplicationMasterKey(generateKey());
+    }
+
+    public static byte[] encryptWithApplicationMasterKey(byte[] data) {
+        return encrypt(getApplicationMasterKey(), data);
     }
 }

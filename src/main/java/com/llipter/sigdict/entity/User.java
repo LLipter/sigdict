@@ -3,6 +3,7 @@ package com.llipter.sigdict.entity;
 import com.llipter.sigdict.security.DigitalSignature;
 import com.llipter.sigdict.security.HashPassword;
 import com.llipter.sigdict.security.SignatureType;
+import com.llipter.sigdict.security.SymmetricEncryption;
 import com.llipter.sigdict.utility.Utility;
 
 import javax.persistence.*;
@@ -41,6 +42,13 @@ public class User {
     @Column(length = 2048)
     private byte[] RsaPrivateKey;
 
+    // unencrypted = 32
+    // encrypted = 48
+    // iv = 16
+    // 48 + 16 = 64
+    @Column(length = 64)
+    private byte[] userMasterKey;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Session session;
 
@@ -58,6 +66,10 @@ public class User {
         this.setEmail(email);
         this.setSalt(Utility.binary2base64(salt));
         this.setUploadedFiles(new ArrayList<>());
+
+        // user master key
+        byte[] key = SymmetricEncryption.generateKey().getEncoded();
+        this.setUserMasterKey(SymmetricEncryption.encryptWithApplicationMasterKey(key));
 
         KeyPair keyPair = DigitalSignature.generateKeyPair(SignatureType.DSA);
         this.setDsaPrivateKey(keyPair.getPrivate().getEncoded());
@@ -145,6 +157,14 @@ public class User {
 
     public void setRsaPrivateKey(byte[] rsaPrivateKey) {
         RsaPrivateKey = rsaPrivateKey;
+    }
+
+    public byte[] getUserMasterKey() {
+        return userMasterKey;
+    }
+
+    public void setUserMasterKey(byte[] userMasterKey) {
+        this.userMasterKey = userMasterKey;
     }
 
     public Session getSession() {

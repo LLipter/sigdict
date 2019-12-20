@@ -9,6 +9,7 @@ public class SymmetricEncryptionTest {
     public static void main(String[] args) {
         String data = "1234567890";
         SecretKey key = SymmetricEncryption.generateKey();
+        System.out.println(key.getEncoded().length);
         System.out.println(Utility.binary2base64(data.getBytes()));
         byte[] encryptedData = SymmetricEncryption.encrypt(key, data.getBytes());
         System.out.println(Utility.binary2base64(encryptedData));
