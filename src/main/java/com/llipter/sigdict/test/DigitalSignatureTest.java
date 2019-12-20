@@ -22,6 +22,11 @@ public class DigitalSignatureTest {
         String data = "123456789";
         System.out.println("Signature: " + DigitalSignature.sign(SignatureType.DSA, keyPair, data.getBytes("UTF-8")));
 
+        keyPair = DigitalSignature.generateKeyPair(SignatureType.RSA);
+        System.out.println(keyPair.getPrivate().getEncoded().length);
+        System.out.println(keyPair.getPublic().getEncoded().length);
+        System.out.println("Private Key: " + Utility.binary2base64(keyPair.getPrivate().getEncoded()));
+        System.out.println("Public Key: " + Utility.binary2base64(keyPair.getPublic().getEncoded()));
 
     }
 }

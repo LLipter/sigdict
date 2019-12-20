@@ -24,10 +24,16 @@ public class User {
     private String salt;
 
     @Column(length = 2048)
-    private String publicKey;
+    private String DsaPublicKey;
 
     @Column(length = 1024)
-    private String privateKey;
+    private String DsaPrivateKey;
+
+    @Column(length = 512)
+    private String RsaPublicKey;
+
+    @Column(length = 2048)
+    private String RsaPrivateKey;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Session session;
@@ -40,11 +46,15 @@ public class User {
         byte[] salt = HashPassword.getSalt();
         this.setUsername(username);
         this.setHashedPassword(HashPassword.getHashedPassword(password, salt));
-        KeyPair keyPair = DigitalSignature.generateKeyPair(SignatureType.DSA);
         this.setEmail(email);
         this.setSalt(Utility.binary2base64(salt));
-        this.setPrivateKey(Utility.binary2base64(keyPair.getPrivate().getEncoded()));
-        this.setPublicKey(Utility.binary2base64(keyPair.getPublic().getEncoded()));
+
+        KeyPair keyPair = DigitalSignature.generateKeyPair(SignatureType.DSA);
+        this.setDsaPrivateKey(Utility.binary2base64(keyPair.getPrivate().getEncoded()));
+        this.setDsaPublicKey(Utility.binary2base64(keyPair.getPublic().getEncoded()));
+        keyPair = DigitalSignature.generateKeyPair(SignatureType.RSA);
+        this.setRsaPrivateKey(Utility.binary2base64(keyPair.getPrivate().getEncoded()));
+        this.setRsaPublicKey(Utility.binary2base64(keyPair.getPublic().getEncoded()));
     }
 
     public Integer getUid() {
@@ -67,8 +77,8 @@ public class User {
         return hashedPassword;
     }
 
-    public void setHashedPassword(String hashed_password) {
-        this.hashedPassword = hashed_password;
+    public void setHashedPassword(String hashedPassword) {
+        this.hashedPassword = hashedPassword;
     }
 
     public String getEmail() {
@@ -87,20 +97,36 @@ public class User {
         this.salt = salt;
     }
 
-    public String getPublicKey() {
-        return publicKey;
+    public String getDsaPublicKey() {
+        return DsaPublicKey;
     }
 
-    public void setPublicKey(String public_key) {
-        this.publicKey = public_key;
+    public void setDsaPublicKey(String dsaPublicKey) {
+        DsaPublicKey = dsaPublicKey;
     }
 
-    public String getPrivateKey() {
-        return privateKey;
+    public String getDsaPrivateKey() {
+        return DsaPrivateKey;
     }
 
-    public void setPrivateKey(String private_key) {
-        this.privateKey = private_key;
+    public void setDsaPrivateKey(String dsaPrivateKey) {
+        DsaPrivateKey = dsaPrivateKey;
+    }
+
+    public String getRsaPublicKey() {
+        return RsaPublicKey;
+    }
+
+    public void setRsaPublicKey(String rsaPublicKey) {
+        RsaPublicKey = rsaPublicKey;
+    }
+
+    public String getRsaPrivateKey() {
+        return RsaPrivateKey;
+    }
+
+    public void setRsaPrivateKey(String rsaPrivateKey) {
+        RsaPrivateKey = rsaPrivateKey;
     }
 
     public Session getSession() {
