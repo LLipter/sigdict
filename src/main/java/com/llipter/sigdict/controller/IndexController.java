@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 public class IndexController extends SessionController {
 
     @GetMapping(value = {"/", "/index.html"})
-    public String getLoginPage(Model model,
+    public String getIndexPage(Model model,
                                HttpServletRequest request) {
         if (validateSession(request)) {
             User user = getUserFromSession(request);

@@ -2,6 +2,7 @@ package com.llipter.sigdict;
 
 import com.llipter.sigdict.entity.User;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -34,9 +35,14 @@ public class Utility {
         return bytes;
     }
 
-    public static void addErrorMessage(Model model, String errorMessage) {
+    public static void addModelErrorMessage(Model model, String errorMessage) {
         model.addAttribute("has_error", true);
         model.addAttribute("error_msg", errorMessage);
+    }
+
+    public static void addRedirectAttributesErrorMessage(RedirectAttributes redirectAttributes, String errorMessage) {
+        redirectAttributes.addFlashAttribute("has_error", true);
+        redirectAttributes.addFlashAttribute("error_msg", errorMessage);
     }
 
     public static void addUserMessage(Model model, User user) {

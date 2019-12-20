@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,21 +27,22 @@ public class LoginController extends SessionController {
                         @RequestParam(name = "password", required = true) String password,
                         Model model,
                         HttpServletRequest request,
-                        HttpServletResponse response) {
+                        HttpServletResponse response,
+                        RedirectAttributes redirectAttributes) {
 
         if (validateSession(request)) {
             // user already signed in
-            Utility.addErrorMessage(model, "YOU HAVE ALREADY SIGNED IN");
-            return "login";
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "YOU HAVE ALREADY SIGNED IN");
+            return "redirect:/login.html";
         }
 
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            Utility.addErrorMessage(model, "USER NOT EXISTED");
-            return "login";
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "USER NOT EXISTED");
+            return "redirect:/login.html";
         } else if (!user.validatePassword(password)) {
-            Utility.addErrorMessage(model, "PASSWORD INCORRECT");
-            return "login";
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "PASSWORD INCORRECT");
+            return "redirect:/login.html";
         }
 
         // login successfully

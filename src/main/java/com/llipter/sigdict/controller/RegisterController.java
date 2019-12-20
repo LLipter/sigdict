@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,36 +28,37 @@ public class RegisterController extends SessionController {
                            @RequestParam(name = "email", required = true) String email,
                            Model model,
                            HttpServletRequest request,
-                           HttpServletResponse response) {
+                           HttpServletResponse response,
+                           RedirectAttributes redirectAttributes) {
 
         if (validateSession(request)) {
-            Utility.addErrorMessage(model, "PLEASE LOG OUT FIRST");
-            return "register";
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "PLEASE LOG OUT FIRST");
+            return "redirect:/register.html";
         }
 
         if (!Utility.isValidUsername(username)) {
-            Utility.addErrorMessage(model, "INVALID USERNAME");
-            return "register";
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "INVALID USERNAME");
+            return "redirect:/register.html";
         }
 
         if (!Utility.isValidPassword(password)) {
-            Utility.addErrorMessage(model, "INVALID PASSWORD");
-            return "register";
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "INVALID PASSWORD");
+            return "redirect:/register.html";
         }
 
         if (!password.equals(passwordConfirmed)) {
-            Utility.addErrorMessage(model, "PLEASE CONFIRM YOUR PASSWORD");
-            return "register";
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "PLEASE CONFIRM YOUR PASSWORD");
+            return "redirect:/register.html";
         }
 
         if (!Utility.isValidEmail(email)) {
-            Utility.addErrorMessage(model, "INVALID EMAIL");
-            return "register";
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "INVALID EMAIL");
+            return "redirect:/register.html";
         }
 
         if (userRepository.findByUsername(username) != null) {
-            Utility.addErrorMessage(model, "DUPLICATE USERNAME");
-            return "register";
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "DUPLICATE USERNAME");
+            return "redirect:/register.html";
         }
 
         // register successfully

@@ -2,8 +2,8 @@ package com.llipter.sigdict.controller;
 
 import com.llipter.sigdict.Utility;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,12 +12,12 @@ public class LogoutController extends SessionController {
 
     @PostMapping(path = "/logout")
     public String logout(
-            Model model,
-            HttpServletRequest request) {
+            HttpServletRequest request,
+            RedirectAttributes redirectAttributes) {
         if (!validateSession(request)) {
             // haven't signed in
-            Utility.addErrorMessage(model, "YOU HAVE NOT SIGNED IN YET");
-            return "login";
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "YOU HAVE NOT SIGNED IN YET");
+            return "redirect:/login.html";
         }
         deleteSession(request);
         return "redirect:/index.html";
