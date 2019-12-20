@@ -2,6 +2,7 @@ package com.llipter.sigdict.security;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -15,10 +16,12 @@ public class SymmetricEncryption {
 
     private static int IV_SIZE = 16;
 
+    private static String KEY_GENERATION_ALGORITHM = "AES";
+
     public static SecretKey generateKey() {
         KeyGenerator keyGenerator = null;
         try {
-            keyGenerator = KeyGenerator.getInstance("AES");
+            keyGenerator = KeyGenerator.getInstance(KEY_GENERATION_ALGORITHM);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -69,6 +72,10 @@ public class SymmetricEncryption {
         return ivAndEncryptedData;
     }
 
+    public static byte[] encrypt(byte[] key, byte[] data) {
+        return encrypt(bytes2SecretKey(key), data);
+    }
+
     public static byte[] decrypt(SecretKey key, byte[] data) {
         // extract iv
         byte[] iv = new byte[IV_SIZE];
@@ -92,6 +99,10 @@ public class SymmetricEncryption {
         return decryptedData;
     }
 
+    public static byte[] decrypt(byte[] key, byte[] data) {
+        return decrypt(bytes2SecretKey(key), data);
+    }
+
     public static SecretKey getApplicationMasterKey() {
         return applicationMasterKey;
     }
@@ -106,5 +117,9 @@ public class SymmetricEncryption {
 
     public static byte[] encryptWithApplicationMasterKey(byte[] data) {
         return encrypt(getApplicationMasterKey(), data);
+    }
+
+    public static SecretKey bytes2SecretKey(byte[] key) {
+        return new SecretKeySpec(key, 0, key.length, KEY_GENERATION_ALGORITHM);
     }
 }

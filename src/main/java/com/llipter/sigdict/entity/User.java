@@ -49,6 +49,13 @@ public class User {
     @Column(length = 64)
     private byte[] userMasterKey;
 
+    // unencrypted = 32
+    // encrypted = 48
+    // iv = 16
+    // 48 + 16 = 64
+    @Column(length = 64)
+    private byte[] userEncryptionKey;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Session session;
 
@@ -68,14 +75,21 @@ public class User {
         this.setUploadedFiles(new ArrayList<>());
 
         // user master key
-        byte[] key = SymmetricEncryption.generateKey().getEncoded();
-        this.setUserMasterKey(SymmetricEncryption.encryptWithApplicationMasterKey(key));
+        byte[] masterKey = SymmetricEncryption.generateKey().getEncoded();
+        this.setUserMasterKey(SymmetricEncryption.encryptWithApplicationMasterKey(masterKey));
 
+        // user encryption key
+        byte[] encryptionKey = SymmetricEncryption.generateKey().getEncoded();
+        this.setUserEncryptionKey(SymmetricEncryption.encrypt(masterKey, encryptionKey));
+
+        // dsa key pairs
         KeyPair keyPair = DigitalSignature.generateKeyPair(SignatureType.DSA);
-        this.setDsaPrivateKey(keyPair.getPrivate().getEncoded());
+        this.setDsaPrivateKey(SymmetricEncryption.encrypt(masterKey, keyPair.getPrivate().getEncoded()));
         this.setDsaPublicKey(keyPair.getPublic().getEncoded());
+
+        // rsa key pairs
         keyPair = DigitalSignature.generateKeyPair(SignatureType.RSA);
-        this.setRsaPrivateKey(keyPair.getPrivate().getEncoded());
+        this.setRsaPrivateKey(SymmetricEncryption.encrypt(masterKey, keyPair.getPrivate().getEncoded()));
         this.setRsaPublicKey(keyPair.getPublic().getEncoded());
     }
 
@@ -165,6 +179,14 @@ public class User {
 
     public void setUserMasterKey(byte[] userMasterKey) {
         this.userMasterKey = userMasterKey;
+    }
+
+    public byte[] getUserEncryptionKey() {
+        return userEncryptionKey;
+    }
+
+    public void setUserEncryptionKey(byte[] userEncryptionKey) {
+        this.userEncryptionKey = userEncryptionKey;
     }
 
     public Session getSession() {
