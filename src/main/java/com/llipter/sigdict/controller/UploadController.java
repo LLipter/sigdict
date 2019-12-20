@@ -1,6 +1,7 @@
 package com.llipter.sigdict.controller;
 
 import com.llipter.sigdict.ErrorMessage;
+import com.llipter.sigdict.security.SignatureType;
 import com.llipter.sigdict.utility.PassMessage;
 import com.llipter.sigdict.utility.ValidateInput;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,7 @@ public class UploadController extends SessionController {
     @PostMapping("/upload")
     public String uploadFile(@RequestParam(name = "file", required = true) MultipartFile file,
                              @RequestParam(name = "encrypted", required = true, defaultValue = "false") boolean encrypted,
+                             @RequestParam(name = "algorithm", required = true) String algorithm,
                              HttpServletRequest request,
                              RedirectAttributes redirectAttributes) {
         if (!validateSession(request)) {
@@ -39,12 +41,8 @@ public class UploadController extends SessionController {
             return "redirect:/login.html";
         }
 
-        System.out.println(file.getName());
-        System.out.println(file.getSize());
-        System.out.println(file.getOriginalFilename());
-        System.out.println(file.getContentType());
-        System.out.println(encrypted);
-        System.out.println(file.isEmpty());
+//        System.out.println("algorithm");
+//        System.out.println(algorithm);
 
         if (file.isEmpty()) {
             // file is missing
@@ -61,6 +59,17 @@ public class UploadController extends SessionController {
         if (!ValidateInput.hasValidExtention(file.getOriginalFilename())) {
             // invalid extension
             PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.FILE_EXTENSION_INVALID);
+            return "redirect:/upload.html";
+        }
+
+        SignatureType signatureType = null;
+        if (algorithm.equals("DSA")) {
+            signatureType = SignatureType.DSA;
+        } else if (algorithm.equals("RSA")) {
+            signatureType = SignatureType.RSA;
+        } else {
+            // invalid algorithm
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.SIGNATURE_ALGORITHM_INVALID);
             return "redirect:/upload.html";
         }
 

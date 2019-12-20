@@ -32,6 +32,12 @@ public class ErrorMessage {
 
     public static final String FILE_EXTENSION_INVALID = "FILE EXTENSION IS INVALID";
 
+    public static final String SIGNATURE_ALGORITHM_INVALID = "SIGNATURE ALGORITHM INVALID";
+
+    public static final String BAD_REQUEST = "Sorry, your request is invalid. " +
+            "Missing mandatory parameter is one possible reason. " +
+            "Please do not use any third-party tools when visiting our website.";
+
     public static final String NOT_FOUND = "Sorry, we cannot find the resource you asked. " +
             "Please double check your URL.";
 
