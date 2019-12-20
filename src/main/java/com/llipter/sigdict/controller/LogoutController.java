@@ -1,5 +1,6 @@
 package com.llipter.sigdict.controller;
 
+import com.llipter.sigdict.ErrorMessage;
 import com.llipter.sigdict.Utility;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,7 @@ public class LogoutController extends SessionController {
             RedirectAttributes redirectAttributes) {
         if (!validateSession(request)) {
             // haven't signed in
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "YOU HAVE NOT SIGNED IN YET");
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.NOT_SIGN_IN_YET);
             return "redirect:/login.html";
         }
         deleteSession(request);

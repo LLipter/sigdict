@@ -1,5 +1,6 @@
 package com.llipter.sigdict.controller;
 
+import com.llipter.sigdict.ErrorMessage;
 import com.llipter.sigdict.Utility;
 import com.llipter.sigdict.entity.Session;
 import com.llipter.sigdict.entity.User;
@@ -32,16 +33,16 @@ public class LoginController extends SessionController {
 
         if (validateSession(request)) {
             // user already signed in
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "YOU HAVE ALREADY SIGNED IN");
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.ALREADY_SIGNED_IN);
             return "redirect:/login.html";
         }
 
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "USER NOT EXISTED");
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.USER_NOT_EXISTED);
             return "redirect:/login.html";
         } else if (!user.validatePassword(password)) {
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "PASSWORD INCORRECT");
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.PASSWORD_INCORRECT);
             return "redirect:/login.html";
         }
 

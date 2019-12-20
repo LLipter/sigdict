@@ -1,5 +1,6 @@
 package com.llipter.sigdict.controller;
 
+import com.llipter.sigdict.ErrorMessage;
 import com.llipter.sigdict.Utility;
 import com.llipter.sigdict.entity.Session;
 import com.llipter.sigdict.entity.User;
@@ -32,32 +33,32 @@ public class RegisterController extends SessionController {
                            RedirectAttributes redirectAttributes) {
 
         if (validateSession(request)) {
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "PLEASE LOG OUT FIRST");
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.LOGOUT_FIRST);
             return "redirect:/register.html";
         }
 
         if (!Utility.isValidUsername(username)) {
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "INVALID USERNAME");
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.USERNAME_INVALID);
             return "redirect:/register.html";
         }
 
         if (!Utility.isValidPassword(password)) {
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "INVALID PASSWORD");
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.PASSWORD_INVALID);
             return "redirect:/register.html";
         }
 
         if (!password.equals(passwordConfirmed)) {
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "PLEASE CONFIRM YOUR PASSWORD");
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.PASSWORD_MISMATCHED);
             return "redirect:/register.html";
         }
 
         if (!Utility.isValidEmail(email)) {
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "INVALID EMAIL");
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.EMAIL_INVALID);
             return "redirect:/register.html";
         }
 
         if (userRepository.findByUsername(username) != null) {
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "DUPLICATE USERNAME");
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.USERNAME_DUPLICATE);
             return "redirect:/register.html";
         }
 

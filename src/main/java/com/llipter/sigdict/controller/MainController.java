@@ -1,5 +1,6 @@
 package com.llipter.sigdict.controller;
 
+import com.llipter.sigdict.ErrorMessage;
 import com.llipter.sigdict.Utility;
 import com.llipter.sigdict.entity.User;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ public class MainController extends SessionController {
                               RedirectAttributes redirectAttributes) {
         if (!validateSession(request)) {
             // haven't signed in
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, "PLEASE SIGN IN FIRST");
+            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.SIGH_IN_FIRST);
             return "redirect:/login.html";
         }
 
