@@ -19,7 +19,7 @@ public class DigitalSignature {
         return keyPairGenerator.generateKeyPair();
     }
 
-    public static String sign(SignatureType signatureType, KeyPair keyPair, byte[] data) {
+    public static String sign(SignatureType signatureType, PrivateKey privateKey, byte[] data) {
         Signature signature = null;
         try {
             if (signatureType == SignatureType.DSA) {
@@ -34,7 +34,7 @@ public class DigitalSignature {
         SecureRandom secureRandom = new SecureRandom();
         byte[] digitalSignature = null;
         try {
-            signature.initSign(keyPair.getPrivate(), secureRandom);
+            signature.initSign(privateKey, secureRandom);
             signature.update(data);
             digitalSignature = signature.sign();
         } catch (InvalidKeyException | SignatureException e) {

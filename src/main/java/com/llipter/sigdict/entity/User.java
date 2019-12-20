@@ -7,6 +7,8 @@ import com.llipter.sigdict.utility.Utility;
 
 import javax.persistence.*;
 import java.security.KeyPair;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class User {
@@ -38,8 +40,11 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Session session;
 
-    public User() {
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UploadedFile> uploadedFiles;
 
+    public User() {
+        this.setUploadedFiles(new ArrayList<>());
     }
 
     public User(String username, String password, String email) {
@@ -48,6 +53,7 @@ public class User {
         this.setHashedPassword(HashPassword.getHashedPassword(password, salt));
         this.setEmail(email);
         this.setSalt(Utility.binary2base64(salt));
+        this.setUploadedFiles(new ArrayList<>());
 
         KeyPair keyPair = DigitalSignature.generateKeyPair(SignatureType.DSA);
         this.setDsaPrivateKey(Utility.binary2base64(keyPair.getPrivate().getEncoded()));
@@ -135,6 +141,14 @@ public class User {
 
     public void setSession(Session session) {
         this.session = session;
+    }
+
+    public List<UploadedFile> getUploadedFiles() {
+        return uploadedFiles;
+    }
+
+    public void setUploadedFiles(List<UploadedFile> uploadedFiles) {
+        this.uploadedFiles = uploadedFiles;
     }
 
     public boolean validatePassword(String password) {
