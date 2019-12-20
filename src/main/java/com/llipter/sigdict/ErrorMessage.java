@@ -26,5 +26,16 @@ public class ErrorMessage {
 
     public static final String MAX_FILE_SIZE_EXCEEDED = "FILE MUST BE LESS THAN 10 MB";
 
+    public static final String NOT_FOUND = "Sorry, we cannot find the resource you asked. " +
+            "Please double check your URL.";
+
+    public static final String METHOD_NOT_ALLOWED = "Sorry, the method in your request is not allowed. " +
+            "Please do not use any third-party tools when visiting our website.";
+
+    public static final String INTERNAL_SERVER_ERROR = "Sorry, there's something wrong in our side. " +
+            "Please be patient, we're working on it.";
+
+    public static final String UNKNOWN_ERROR = "Sorry there's an unexpected error. " +
+            "Please retry or report this issue to us.";
 
 }

@@ -25,14 +25,19 @@
 
     <div class="w3-card-4 w3-padding-16 w3-white w3-container w3-margin-bottom">
         <div class="w3-center">
-            <b style="color:red" th:text="${error_msg}"></b>
-            <!-- <b style="color:red">ERROR MESSAGE</b> -->
+            <b style="color:red" th:text="${error_title}"></b>
+        </div>
+    </div>
+
+    <div class="w3-card-4 w3-padding-16 w3-white w3-container w3-margin-bottom">
+        <div class="w3-center">
+            <p th:text="${error_msg}"></p>
         </div>
     </div>
 
     <div class="w3-card-4 w3-padding-16 w3-white w3-container">
         <div class="w3-center">
-            <a href="/templates/index.html"><b style="font-size:13px">RETURN TO HOMEPAGE >></b></a>
+            <a href="/index.html"><b style="font-size:13px">RETURN TO INDEX >></b></a>
         </div>
 
     </div>

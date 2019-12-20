@@ -5,7 +5,6 @@ import com.llipter.sigdict.Utility;
 import com.llipter.sigdict.entity.Session;
 import com.llipter.sigdict.entity.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +25,6 @@ public class LoginController extends SessionController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@RequestParam(name = "username", required = true) String username,
                         @RequestParam(name = "password", required = true) String password,
-                        Model model,
                         HttpServletRequest request,
                         HttpServletResponse response,
                         RedirectAttributes redirectAttributes) {

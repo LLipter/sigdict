@@ -10,15 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Controller
-public class UploadController extends SessionController{
+public class UploadController extends SessionController {
 
     @GetMapping(value = "/upload.html")
     public String getUploadPage(Model model,
@@ -53,23 +50,6 @@ public class UploadController extends SessionController{
         return "redirect:/upload.html";
     }
 
-//    @Override
-//    public ModelAndView resolveException(HttpServletRequest request,
-//                                         HttpServletResponse response,
-//                                         Object handler,
-//                                         Exception exception) {
-//        ModelAndView modelAndView = new ModelAndView("upload");
-//        System.out.println("oooo");
-//        System.out.println(exception.getClass().getName());
-//        if (exception instanceof MaxUploadSizeExceededException) {
-////            ModelAndView modelAndView = new ModelAndView("upload");
-////            modelAndView.getModel().put("has_error", true);
-////            modelAndView.getModel().put("error_msg", ErrorMessage.MAX_FILE_SIZE_EXCEEDED);
-////            return modelAndView;
-////            Utility.addModelErrorMessage(modelAndView.getModel(), ErrorMessage.MAX_FILE_SIZE_EXCEEDED);
-//        }
-//        return modelAndView;
-//    }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public String handleError(MaxUploadSizeExceededException exception,

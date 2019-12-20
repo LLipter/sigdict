@@ -27,7 +27,6 @@ public class RegisterController extends SessionController {
                            @RequestParam(name = "password", required = true) String password,
                            @RequestParam(name = "password-confirm", required = true) String passwordConfirmed,
                            @RequestParam(name = "email", required = true) String email,
-                           Model model,
                            HttpServletRequest request,
                            HttpServletResponse response,
                            RedirectAttributes redirectAttributes) {

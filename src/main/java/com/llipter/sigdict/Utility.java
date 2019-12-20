@@ -40,6 +40,11 @@ public class Utility {
         model.addAttribute("error_msg", errorMessage);
     }
 
+    public static void addModelErrorPageMessage(Model model, String errorTitle, String errorMessage) {
+        model.addAttribute("error_title", errorTitle);
+        model.addAttribute("error_msg", errorMessage);
+    }
+
     public static void addRedirectAttributesErrorMessage(RedirectAttributes redirectAttributes, String errorMessage) {
         redirectAttributes.addFlashAttribute("has_error", true);
         redirectAttributes.addFlashAttribute("error_msg", errorMessage);
