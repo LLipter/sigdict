@@ -1,7 +1,7 @@
 package com.llipter.sigdict.controller;
 
 import com.llipter.sigdict.ErrorMessage;
-import com.llipter.sigdict.Utility;
+import com.llipter.sigdict.utility.PassMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,7 +22,7 @@ public class UploadController extends SessionController {
                                 HttpServletRequest request,
                                 RedirectAttributes redirectAttributes) {
         if (!validateSession(request)) {
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.SIGH_IN_FIRST);
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.SIGH_IN_FIRST);
             return "redirect:/login.html";
         }
         return "upload";
@@ -34,7 +34,7 @@ public class UploadController extends SessionController {
                              HttpServletRequest request,
                              RedirectAttributes redirectAttributes) {
         if (!validateSession(request)) {
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.SIGH_IN_FIRST);
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.SIGH_IN_FIRST);
             return "redirect:/login.html";
         }
 
@@ -54,7 +54,7 @@ public class UploadController extends SessionController {
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public String handleError(MaxUploadSizeExceededException exception,
                               RedirectAttributes redirectAttributes) {
-        Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.MAX_FILE_SIZE_EXCEEDED);
+        PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.MAX_FILE_SIZE_EXCEEDED);
         System.out.println("handled");
         return "redirect:/upload.html";
     }

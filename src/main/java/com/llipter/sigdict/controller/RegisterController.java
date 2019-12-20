@@ -1,9 +1,10 @@
 package com.llipter.sigdict.controller;
 
 import com.llipter.sigdict.ErrorMessage;
-import com.llipter.sigdict.Utility;
 import com.llipter.sigdict.entity.Session;
 import com.llipter.sigdict.entity.User;
+import com.llipter.sigdict.utility.PassMessage;
+import com.llipter.sigdict.utility.ValidateInput;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,32 +32,32 @@ public class RegisterController extends SessionController {
                            RedirectAttributes redirectAttributes) {
 
         if (validateSession(request)) {
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.LOGOUT_FIRST);
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.LOGOUT_FIRST);
             return "redirect:/register.html";
         }
 
-        if (!Utility.isValidUsername(username)) {
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.USERNAME_INVALID);
+        if (!ValidateInput.isValidUsername(username)) {
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.USERNAME_INVALID);
             return "redirect:/register.html";
         }
 
-        if (!Utility.isValidPassword(password)) {
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.PASSWORD_INVALID);
+        if (!ValidateInput.isValidPassword(password)) {
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.PASSWORD_INVALID);
             return "redirect:/register.html";
         }
 
         if (!password.equals(passwordConfirmed)) {
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.PASSWORD_MISMATCHED);
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.PASSWORD_MISMATCHED);
             return "redirect:/register.html";
         }
 
-        if (!Utility.isValidEmail(email)) {
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.EMAIL_INVALID);
+        if (!ValidateInput.isValidEmail(email)) {
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.EMAIL_INVALID);
             return "redirect:/register.html";
         }
 
         if (userRepository.findByUsername(username) != null) {
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.USERNAME_DUPLICATE);
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.USERNAME_DUPLICATE);
             return "redirect:/register.html";
         }
 

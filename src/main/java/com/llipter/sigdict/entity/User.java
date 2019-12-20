@@ -1,8 +1,8 @@
 package com.llipter.sigdict.entity;
 
-import com.llipter.sigdict.Utility;
 import com.llipter.sigdict.security.DigitalSignature;
 import com.llipter.sigdict.security.HashPassword;
+import com.llipter.sigdict.utility.Utility;
 
 import javax.persistence.*;
 import java.security.KeyPair;

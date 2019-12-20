@@ -1,60 +1,10 @@
-package com.llipter.sigdict;
-
-import com.llipter.sigdict.entity.User;
-import org.springframework.ui.Model;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+package com.llipter.sigdict.utility;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Base64;
 
-public class Utility {
-    private Utility() {
-    }
-
-    public static String binary2base64(byte[] bytes) {
-        return Base64.getEncoder().encodeToString(bytes);
-    }
-
-    public static byte[] base642binary(String base64) {
-        return Base64.getDecoder().decode(base64);
-    }
-
-    public static byte[] getRandomBytes(int size) {
-        //Always use a SecureRandom generator
-        SecureRandom sr = null;
-        try {
-            sr = SecureRandom.getInstance("SHA1PRNG");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        byte[] bytes = new byte[size];
-        sr.nextBytes(bytes);
-        return bytes;
-    }
-
-    public static void addModelErrorMessage(Model model, String errorMessage) {
-        model.addAttribute("has_error", true);
-        model.addAttribute("error_msg", errorMessage);
-    }
-
-    public static void addModelErrorPageMessage(Model model, String errorTitle, String errorMessage) {
-        model.addAttribute("error_title", errorTitle);
-        model.addAttribute("error_msg", errorMessage);
-    }
-
-    public static void addRedirectAttributesErrorMessage(RedirectAttributes redirectAttributes, String errorMessage) {
-        redirectAttributes.addFlashAttribute("has_error", true);
-        redirectAttributes.addFlashAttribute("error_msg", errorMessage);
-    }
-
-    public static void addUserMessage(Model model, User user) {
-        model.addAttribute("has_signed_in", true);
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("email", user.getEmail());
-        model.addAttribute("pubkey", user.getPublicKey());
+public class ValidateInput {
+    private ValidateInput() {
     }
 
     public static boolean isAsciiDigit(char c) {

@@ -1,6 +1,6 @@
 package com.llipter.sigdict.security;
 
-import com.llipter.sigdict.Utility;
+import com.llipter.sigdict.utility.Utility;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;

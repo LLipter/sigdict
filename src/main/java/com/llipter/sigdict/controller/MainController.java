@@ -1,8 +1,8 @@
 package com.llipter.sigdict.controller;
 
 import com.llipter.sigdict.ErrorMessage;
-import com.llipter.sigdict.Utility;
 import com.llipter.sigdict.entity.User;
+import com.llipter.sigdict.utility.PassMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +19,12 @@ public class MainController extends SessionController {
                               RedirectAttributes redirectAttributes) {
         if (!validateSession(request)) {
             // haven't signed in
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.SIGH_IN_FIRST);
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.SIGH_IN_FIRST);
             return "redirect:/login.html";
         }
 
         User user = getUserFromSession(request);
-        Utility.addUserMessage(model, user);
+        PassMessage.addUserMessage(model, user);
         return "main";
     }
 }

@@ -1,7 +1,7 @@
 package com.llipter.sigdict.controller;
 
 import com.llipter.sigdict.ErrorMessage;
-import com.llipter.sigdict.Utility;
+import com.llipter.sigdict.utility.PassMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -17,7 +17,7 @@ public class LogoutController extends SessionController {
             RedirectAttributes redirectAttributes) {
         if (!validateSession(request)) {
             // haven't signed in
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.NOT_SIGN_IN_YET);
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.NOT_SIGN_IN_YET);
             return "redirect:/login.html";
         }
         deleteSession(request);

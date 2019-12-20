@@ -1,6 +1,6 @@
 package com.llipter.sigdict.test;
 
-import com.llipter.sigdict.Utility;
+import com.llipter.sigdict.utility.ValidateInput;
 
 public class UtilityTest {
     public static void main(String[] args) {
@@ -11,16 +11,16 @@ public class UtilityTest {
         System.out.println('a');
 
         String email = "llipter@foxmail.com";
-        System.out.println(Utility.isValidEmail(email));
+        System.out.println(ValidateInput.isValidEmail(email));
         email = "llipters.@^%&%^*%&^";
-        System.out.println(Utility.isValidEmail(email));
+        System.out.println(ValidateInput.isValidEmail(email));
 
         String username = "liaoran12";
-        System.out.println(Utility.isValidUsername(username));
+        System.out.println(ValidateInput.isValidUsername(username));
 
         String password = "123411213Rs";
-        System.out.println(Utility.isValidPassword(password));
+        System.out.println(ValidateInput.isValidPassword(password));
 
-        System.out.println(Utility.isAsciiLetterOrDigit('o'));
+        System.out.println(ValidateInput.isAsciiLetterOrDigit('o'));
     }
 }

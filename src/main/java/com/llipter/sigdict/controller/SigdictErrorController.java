@@ -1,7 +1,7 @@
 package com.llipter.sigdict.controller;
 
 import com.llipter.sigdict.ErrorMessage;
-import com.llipter.sigdict.Utility;
+import com.llipter.sigdict.utility.PassMessage;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -26,22 +26,22 @@ public class SigdictErrorController implements ErrorController {
         int status = response.getStatus();
 //        System.out.println(status);
         if (status == HttpStatus.NOT_FOUND.value()) {
-            Utility.addModelErrorPageMessage(model,
+            PassMessage.addModelErrorPageMessage(model,
                     HttpStatus.NOT_FOUND.value() + " " +
                             HttpStatus.NOT_FOUND.getReasonPhrase(),
                     ErrorMessage.NOT_FOUND);
         } else if (status == HttpStatus.METHOD_NOT_ALLOWED.value()) {
-            Utility.addModelErrorPageMessage(model,
+            PassMessage.addModelErrorPageMessage(model,
                     HttpStatus.METHOD_NOT_ALLOWED.value() + " " +
                             HttpStatus.METHOD_NOT_ALLOWED.getReasonPhrase(),
                     ErrorMessage.METHOD_NOT_ALLOWED);
         } else if (status == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-            Utility.addModelErrorPageMessage(model,
+            PassMessage.addModelErrorPageMessage(model,
                     HttpStatus.INTERNAL_SERVER_ERROR.value() + " " +
                             HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
                     ErrorMessage.INTERNAL_SERVER_ERROR);
         } else {
-            Utility.addModelErrorPageMessage(model,
+            PassMessage.addModelErrorPageMessage(model,
                     "UNKNOWN ERROR",
                     ErrorMessage.UNKNOWN_ERROR);
         }

@@ -1,7 +1,7 @@
 package com.llipter.sigdict.test;
 
-import com.llipter.sigdict.Utility;
 import com.llipter.sigdict.security.DigitalSignature;
+import com.llipter.sigdict.utility.Utility;
 
 import java.security.KeyPair;
 

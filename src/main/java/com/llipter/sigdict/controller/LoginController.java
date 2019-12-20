@@ -1,9 +1,9 @@
 package com.llipter.sigdict.controller;
 
 import com.llipter.sigdict.ErrorMessage;
-import com.llipter.sigdict.Utility;
 import com.llipter.sigdict.entity.Session;
 import com.llipter.sigdict.entity.User;
+import com.llipter.sigdict.utility.PassMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,16 +31,16 @@ public class LoginController extends SessionController {
 
         if (validateSession(request)) {
             // user already signed in
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.ALREADY_SIGNED_IN);
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.ALREADY_SIGNED_IN);
             return "redirect:/login.html";
         }
 
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.USER_NOT_EXISTED);
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.USER_NOT_EXISTED);
             return "redirect:/login.html";
         } else if (!user.validatePassword(password)) {
-            Utility.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.PASSWORD_INCORRECT);
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.PASSWORD_INCORRECT);
             return "redirect:/login.html";
         }
 

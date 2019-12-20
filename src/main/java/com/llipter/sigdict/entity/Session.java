@@ -1,6 +1,6 @@
 package com.llipter.sigdict.entity;
 
-import com.llipter.sigdict.Utility;
+import com.llipter.sigdict.utility.Utility;
 
 import javax.persistence.*;
 import javax.servlet.http.Cookie;
