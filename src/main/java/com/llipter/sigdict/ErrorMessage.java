@@ -26,6 +26,12 @@ public class ErrorMessage {
 
     public static final String MAX_FILE_SIZE_EXCEEDED = "FILE MUST BE LESS THAN 10 MB";
 
+    public static final String FILE_NOT_SELECT = "PLEASE SELECT FILE FIRST";
+
+    public static final String FILENAME_INVALID = "FILENAME INVALID";
+
+    public static final String FILE_EXTENSION_INVALID = "FILE EXTENSION IS INVALID";
+
     public static final String NOT_FOUND = "Sorry, we cannot find the resource you asked. " +
             "Please double check your URL.";
 

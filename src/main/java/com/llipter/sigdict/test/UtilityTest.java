@@ -1,6 +1,7 @@
 package com.llipter.sigdict.test;
 
 import com.llipter.sigdict.utility.ValidateInput;
+import org.springframework.util.StringUtils;
 
 public class UtilityTest {
     public static void main(String[] args) {
@@ -22,5 +23,10 @@ public class UtilityTest {
         System.out.println(ValidateInput.isValidPassword(password));
 
         System.out.println(ValidateInput.isAsciiLetterOrDigit('o'));
+
+        System.out.println(System.getProperty("os.name"));
+
+        String filename = ". ";
+        System.out.println(StringUtils.getFilenameExtension(filename).toLowerCase());
     }
 }

@@ -2,6 +2,7 @@ package com.llipter.sigdict.controller;
 
 import com.llipter.sigdict.ErrorMessage;
 import com.llipter.sigdict.utility.PassMessage;
+import com.llipter.sigdict.utility.ValidateInput;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -41,7 +42,28 @@ public class UploadController extends SessionController {
         System.out.println(file.getName());
         System.out.println(file.getSize());
         System.out.println(file.getOriginalFilename());
+        System.out.println(file.getContentType());
         System.out.println(encrypted);
+        System.out.println(file.isEmpty());
+
+        if (file.isEmpty()) {
+            // file is missing
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.FILE_NOT_SELECT);
+            return "redirect:/upload.html";
+        }
+
+        if(!ValidateInput.isValidFilename(file.getOriginalFilename())){
+            // malicious filename
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.FILENAME_INVALID);
+            return "redirect:/upload.html";
+        }
+
+        if(!ValidateInput.hasValidExtention(file.getOriginalFilename())){
+            // invalid extension
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.FILE_EXTENSION_INVALID);
+            return "redirect:/upload.html";
+        }
+
 
 //        storageService.store(file);
 //        redirectAttributes.addFlashAttribute("message",

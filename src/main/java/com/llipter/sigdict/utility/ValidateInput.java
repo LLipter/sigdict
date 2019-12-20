@@ -1,7 +1,10 @@
 package com.llipter.sigdict.utility;
 
+import org.springframework.util.StringUtils;
+
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import java.io.File;
 
 public class ValidateInput {
     private ValidateInput() {
@@ -89,5 +92,30 @@ public class ValidateInput {
         } catch (AddressException ex) {
             return false;
         }
+    }
+
+    public static boolean isValidFilename(String filename) {
+        if (!filename.contains("."))
+            return false;
+        return !filename.contains(File.separator) && !filename.contains(File.pathSeparator);
+    }
+
+    private static String[] validExtensions =
+            {
+                    "docx", "doc", "pptx", "ppt", "xlsx", "xls",
+                    "jpeg", "jpg", "png", "gif", "tiff", "tif", "raw", "bmp", "svg",
+                    "txt", "tex", "md", "pdf",
+                    "mp3", "wav",
+                    "zip", "z", "rar", "7z", "gz",
+                    "csv", "xml", "tar"
+            };
+
+    public static boolean hasValidExtention(String filename) {
+        String extension = StringUtils.getFilenameExtension(filename).toLowerCase();
+        for (String validExtension : validExtensions) {
+            if (extension.equals(validExtension))
+                return true;
+        }
+        return false;
     }
 }

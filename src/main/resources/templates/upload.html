@@ -34,11 +34,22 @@
             <b>File:</b>
             <input class="w3-input w3-hover-light-grey w3-margin-bottom" name="file" type="file">
 
+            <b>Signature Algorithm:</b>
+            <br>
+            <div class="w3-center">
+                <input class="w3-radio" type="radio" name="algorithm" value="DSA" checked>
+                <label>DSA</label>
+
+                <input class="w3-radio w3-margin-left" type="radio" name="algorithm" value="RSA">
+                <label>RSA</label>
+            </div>
+
 
             <div class="w3-right">
                 <b style="font-size:13px">ENCRYPT FILE</b>
                 <input class="w3-check" name="encrypted" type="checkbox">
             </div>
+
 
             <div class="w3-container w3-center">
                 <button class="w3-button w3-border w3-margin-top" type="submit"><b>UPLOAD »</b></button>
@@ -48,10 +59,42 @@
         </form>
     </div>
 
-    <div class="w3-card-4 w3-padding-16 w3-white w3-container w3-margin-top">
+    <div class="w3-card-4 w3-white w3-container w3-margin-top w3-padding-16">
         <div class="" style="font-size:10px">
             <p style="color:dimgrey">
                 The <b>maximum file size</b> allowed is <i>10MB</i>.
+            </p>
+            <p style="color:dimgrey">
+                Only the following <b>file extension</b> is allowed :
+                <i>docx</i>,
+                <i>doc</i>,
+                <i>pptx</i>,
+                <i>ppt</i>,
+                <i>xlsx</i>,
+                <i>xls</i>,
+                <i>jpeg</i>,
+                <i>jpg</i>,
+                <i>png</i>,
+                <i>gif</i>,
+                <i>tiff</i>,
+                <i>tif</i>,
+                <i>raw</i>,
+                <i>bmp</i>,
+                <i>svg</i>,
+                <i>txt</i>,
+                <i>tex</i>,
+                <i>md</i>,
+                <i>pdf</i>,
+                <i>mp3</i>,
+                <i>wav</i>,
+                <i>zip</i>,
+                <i>z</i>,
+                <i>rar</i>,
+                <i>7z</i>,
+                <i>gz</i>,
+                <i>csv</i>,
+                <i>xml</i>,
+                <i>tar</i>.
             </p>
         </div>
     </div>
