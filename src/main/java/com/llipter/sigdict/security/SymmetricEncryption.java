@@ -2,9 +2,14 @@ package com.llipter.sigdict.security;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
-import java.security.*;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 public class SymmetricEncryption {
+
+    private static SecretKey masterKey;
 
     private static int AES_KEY_SIZE = 256;
 
@@ -23,12 +28,11 @@ public class SymmetricEncryption {
         return keyGenerator.generateKey();
     }
 
-    private static Cipher getCipher(Key key, int mode, IvParameterSpec ivParameterSpec) {
+    private static Cipher getCipher(SecretKey key, int mode, IvParameterSpec ivParameterSpec) {
         Cipher cipher = null;
         try {
             cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(mode, key, ivParameterSpec);
-
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (NoSuchPaddingException e) {
@@ -41,7 +45,7 @@ public class SymmetricEncryption {
         return cipher;
     }
 
-    public static byte[] encrypt(Key key, byte[] data) {
+    public static byte[] encrypt(SecretKey key, byte[] data) {
         // generate iv randomly
         byte[] iv = new byte[IV_SIZE];
         SecureRandom random = new SecureRandom();
@@ -65,7 +69,7 @@ public class SymmetricEncryption {
         return ivAndEncryptedData;
     }
 
-    public static byte[] decrypt(Key key, byte[] data) {
+    public static byte[] decrypt(SecretKey key, byte[] data) {
         // extract iv
         byte[] iv = new byte[IV_SIZE];
         System.arraycopy(data, 0, iv, 0, IV_SIZE);
@@ -88,5 +92,15 @@ public class SymmetricEncryption {
         return decryptedData;
     }
 
+    public static SecretKey getMasterKey() {
+        return masterKey;
+    }
 
+    public static void setMasterKey(SecretKey masterKey) {
+        SymmetricEncryption.masterKey = masterKey;
+    }
+
+    public static void generateMasterKey() {
+        setMasterKey(generateKey());
+    }
 }

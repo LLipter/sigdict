@@ -2,6 +2,7 @@ package com.llipter.sigdict;
 
 import com.llipter.sigdict.entity.User;
 import com.llipter.sigdict.repository.UserRepository;
+import com.llipter.sigdict.security.SymmetricEncryption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -22,12 +23,14 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
     @Override
     public void onApplicationEvent(final ApplicationReadyEvent event) {
 
+        // generate initial account
         User user = null;
-
         user = new User("llipter", "cestlavie", "llipter@foxmail.com");
         userRepository.save(user);
         user = new User("epfl", "eth", "felicitations@admitted.edu");
         userRepository.save(user);
 
+        // generate master key
+        SymmetricEncryption.generateMasterKey();
     }
 }
