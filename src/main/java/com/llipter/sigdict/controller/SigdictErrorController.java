@@ -2,14 +2,12 @@ package com.llipter.sigdict.controller;
 
 import com.llipter.sigdict.ErrorMessage;
 import com.llipter.sigdict.Utility;
-import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
@@ -22,8 +20,7 @@ public class SigdictErrorController implements ErrorController {
     }
 
     @RequestMapping("${server.error.path}")
-    public String handleError(HttpServletRequest request,
-                              HttpServletResponse response,
+    public String handleError(HttpServletResponse response,
                               Model model) {
 
         int status = response.getStatus();

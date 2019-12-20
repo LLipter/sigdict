@@ -30,14 +30,14 @@
     </div>
 
     <div class="w3-card-4 w3-padding-16 w3-white w3-container">
-        <form class="w3-padding" method="post" th:action="@{/upload}" enctype="multipart/form-data">
+        <form class="w3-padding" enctype="multipart/form-data" method="post" th:action="@{/upload}">
             <b>File:</b>
             <input class="w3-input w3-hover-light-grey w3-margin-bottom" name="file" type="file">
 
 
             <div class="w3-right">
                 <b style="font-size:13px">ENCRYPT FILE</b>
-                <input class="w3-check" type="checkbox" name="encrypted">
+                <input class="w3-check" name="encrypted" type="checkbox">
             </div>
 
             <div class="w3-container w3-center">
