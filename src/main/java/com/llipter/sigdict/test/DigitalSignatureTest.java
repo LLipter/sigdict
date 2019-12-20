@@ -1,6 +1,7 @@
 package com.llipter.sigdict.test;
 
 import com.llipter.sigdict.security.DigitalSignature;
+import com.llipter.sigdict.security.KeyConverter;
 import com.llipter.sigdict.security.SignatureType;
 import com.llipter.sigdict.utility.Utility;
 
@@ -18,6 +19,9 @@ public class DigitalSignatureTest {
         System.out.println("Private Key: " + Utility.binary2base64(keyPair.getPrivate().getEncoded()));
         System.out.println("Public Key: " + Utility.binary2base64(keyPair.getPublic().getEncoded()));
 
+        System.out.println("Private Key: " + Utility.binary2base64(KeyConverter.bytes2DsaPrivateKey(keyPair.getPrivate().getEncoded()).getEncoded()));
+        System.out.println("Public Key: " + Utility.binary2base64(KeyConverter.bytes2DsaPublicKey(keyPair.getPublic().getEncoded()).getEncoded()));
+
 
         String data = "123456723421432489";
         System.out.println(
@@ -34,6 +38,11 @@ public class DigitalSignatureTest {
                 "Signature: " + DigitalSignature.sign(SignatureType.RSA,
                         keyPair.getPrivate(),
                         data.getBytes("UTF-8")));
+
+        System.out.println("Private Key: " + Utility.binary2base64(KeyConverter.bytes2RsaPrivateKey(keyPair.getPrivate().getEncoded()).getEncoded()));
+        System.out.println("Public Key: " + Utility.binary2base64(KeyConverter.bytes2RsaPublicKey(keyPair.getPublic().getEncoded()).getEncoded()));
+
+
 
     }
 }

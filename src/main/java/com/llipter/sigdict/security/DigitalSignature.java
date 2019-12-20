@@ -3,6 +3,9 @@ package com.llipter.sigdict.security;
 import com.llipter.sigdict.utility.Utility;
 
 import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 
 public class DigitalSignature {
     public static KeyPair generateKeyPair(SignatureType signatureType) {
@@ -43,4 +46,5 @@ public class DigitalSignature {
 
         return Utility.binary2base64(digitalSignature);
     }
+
 }

@@ -1,13 +1,12 @@
 package com.llipter.sigdict.entity;
 
-import com.llipter.sigdict.security.DigitalSignature;
-import com.llipter.sigdict.security.HashPassword;
-import com.llipter.sigdict.security.SignatureType;
-import com.llipter.sigdict.security.SymmetricEncryption;
+import com.llipter.sigdict.security.*;
 import com.llipter.sigdict.utility.Utility;
 
+import javax.crypto.SecretKey;
 import javax.persistence.*;
 import java.security.KeyPair;
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,6 +90,23 @@ public class User {
         keyPair = DigitalSignature.generateKeyPair(SignatureType.RSA);
         this.setRsaPrivateKey(SymmetricEncryption.encrypt(masterKey, keyPair.getPrivate().getEncoded()));
         this.setRsaPublicKey(keyPair.getPublic().getEncoded());
+    }
+
+    public SecretKey getUnencryptedUserMasterKey() {
+        byte[] masterKey = SymmetricEncryption.decryptWithApplicationMasterKey(getUserMasterKey());
+        return KeyConverter.bytes2SecretKey(masterKey);
+    }
+
+    public PrivateKey getUnencryptedDsaPrivateKey() {
+        SecretKey masterKey = getUnencryptedUserMasterKey();
+        byte[] dsaPrivateKey = SymmetricEncryption.decrypt(masterKey, getDsaPrivateKey());
+        return KeyConverter.bytes2DsaPrivateKey(dsaPrivateKey);
+    }
+
+    public PrivateKey getUnencryptedRsaPrivateKey() {
+        SecretKey masterKey = getUnencryptedUserMasterKey();
+        byte[] rsaPrivateKey = SymmetricEncryption.decrypt(masterKey, getRsaPrivateKey());
+        return KeyConverter.bytes2RsaPrivateKey(rsaPrivateKey);
     }
 
 
