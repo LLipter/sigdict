@@ -20,12 +20,12 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public void store(MultipartFile file, User user, SignatureType signatureType, boolean encrypted) {
-//        try {
-//            InputStream inputStream = file.getInputStream();
-//            Files.copy(inputStream, this.dirLocation.resolve(filename),
-//                    StandardCopyOption.REPLACE_EXISTING);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            InputStream inputStream = file.getInputStream();
+            Files.copy(inputStream, this.dirLocation.resolve(filename),
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.llipter.sigdict.entity;
 
 import com.llipter.sigdict.security.DigitalSignature;
 import com.llipter.sigdict.security.SignatureType;
+import com.llipter.sigdict.utility.Utility;
 
 import javax.persistence.*;
 import java.security.PrivateKey;
@@ -10,11 +11,15 @@ import java.sql.Timestamp;
 
 @Entity
 public class UploadedFile {
+    private static int STORED_FILENAME_LENGTH = 16;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer fid;
 
     private String filename;
+
+    private String storedFilename;
 
     @Column(length = 512)
     private String signature;
@@ -26,6 +31,7 @@ public class UploadedFile {
     @Column(columnDefinition = "smallint")
     private SignatureType signatureType;
 
+
     public UploadedFile() {
     }
 
@@ -34,6 +40,11 @@ public class UploadedFile {
         this.setSignature(DigitalSignature.sign(signatureType, privateKey, data));
         this.setUploadTime(new Timestamp(System.currentTimeMillis()));
         this.setSignatureType(signatureType);
+        this.setStoredFilename(generateRandomFilename());
+    }
+
+    public static String generateRandomFilename() {
+        return Utility.binary2base64(Utility.getRandomBytes(STORED_FILENAME_LENGTH));
     }
 
     public Integer getFid() {
@@ -50,6 +61,14 @@ public class UploadedFile {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public String getStoredFilename() {
+        return storedFilename;
+    }
+
+    public void setStoredFilename(String storedFilename) {
+        this.storedFilename = storedFilename;
     }
 
     public String getSignature() {
