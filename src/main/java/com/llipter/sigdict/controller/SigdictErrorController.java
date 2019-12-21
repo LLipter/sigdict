@@ -25,12 +25,12 @@ public class SigdictErrorController implements ErrorController {
 
         int status = response.getStatus();
 //        System.out.println(status);
-        if (status == HttpStatus.BAD_REQUEST.value()){
+        if (status == HttpStatus.BAD_REQUEST.value()) {
             PassMessage.addModelErrorPageMessage(model,
                     HttpStatus.BAD_REQUEST.value() + " " +
                             HttpStatus.BAD_REQUEST.getReasonPhrase(),
                     ErrorMessage.BAD_REQUEST);
-        }else if (status == HttpStatus.NOT_FOUND.value()) {
+        } else if (status == HttpStatus.NOT_FOUND.value()) {
             PassMessage.addModelErrorPageMessage(model,
                     HttpStatus.NOT_FOUND.value() + " " +
                             HttpStatus.NOT_FOUND.getReasonPhrase(),

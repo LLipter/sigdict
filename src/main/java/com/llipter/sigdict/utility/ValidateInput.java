@@ -7,6 +7,16 @@ import javax.mail.internet.InternetAddress;
 import java.io.File;
 
 public class ValidateInput {
+    private static String[] validExtensions =
+            {
+                    "docx", "doc", "pptx", "ppt", "xlsx", "xls",
+                    "jpeg", "jpg", "png", "gif", "tiff", "tif", "raw", "bmp", "svg",
+                    "txt", "tex", "md", "pdf",
+                    "mp3", "wav",
+                    "zip", "z", "rar", "7z", "gz",
+                    "csv", "xml", "tar"
+            };
+
     private ValidateInput() {
     }
 
@@ -99,16 +109,6 @@ public class ValidateInput {
             return false;
         return !filename.contains(File.separator) && !filename.contains(File.pathSeparator);
     }
-
-    private static String[] validExtensions =
-            {
-                    "docx", "doc", "pptx", "ppt", "xlsx", "xls",
-                    "jpeg", "jpg", "png", "gif", "tiff", "tif", "raw", "bmp", "svg",
-                    "txt", "tex", "md", "pdf",
-                    "mp3", "wav",
-                    "zip", "z", "rar", "7z", "gz",
-                    "csv", "xml", "tar"
-            };
 
     public static boolean hasValidExtention(String filename) {
         String extension = StringUtils.getFilenameExtension(filename).toLowerCase();
