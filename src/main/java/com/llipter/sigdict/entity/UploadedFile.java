@@ -20,7 +20,7 @@ public class UploadedFile {
 
     private String filename;
 
-    private String storedFilename;
+    private String identifier;
 
     // DSA = 62
     // RSA = 256
@@ -48,11 +48,11 @@ public class UploadedFile {
         this.setSignature(DigitalSignature.sign(signatureType, privateKey, data));
         this.setUploadTime(new Timestamp(System.currentTimeMillis()));
         this.setSignatureType(signatureType);
-        this.setStoredFilename(generateRandomFilename());
+        this.setIdentifier(generateRandomIdentifier());
         this.setEncrypted((encrypted));
     }
 
-    public static String generateRandomFilename() {
+    public static String generateRandomIdentifier() {
         String filename = Utility.binary2base64(Utility.getRandomBytes(STORED_FILENAME_LENGTH));
         filename = filename.replaceAll(File.separator, "-");
         filename = filename.replace(File.pathSeparator, "-");
@@ -75,12 +75,12 @@ public class UploadedFile {
         this.filename = filename;
     }
 
-    public String getStoredFilename() {
-        return storedFilename;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setStoredFilename(String storedFilename) {
-        this.storedFilename = storedFilename;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     public byte[] getSignature() {

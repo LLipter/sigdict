@@ -26,7 +26,7 @@ public class PassMessage {
         for (UploadedFile uploadedFile : uploadedFiles) {
             MainPageFile mainPageFile = new MainPageFile();
             mainPageFile.setFilename(uploadedFile.getFilename());
-            mainPageFile.setIdentifier(uploadedFile.getStoredFilename());
+            mainPageFile.setIdentifier(uploadedFile.getIdentifier());
             mainPageFile.setDate(Utility.timestamp2String(uploadedFile.getUploadTime()));
             mainPageFiles.add(mainPageFile);
         }

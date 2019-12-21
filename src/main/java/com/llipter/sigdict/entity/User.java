@@ -115,6 +115,13 @@ public class User {
         return KeyConverter.bytes2RsaPrivateKey(rsaPrivateKey);
     }
 
+    public UploadedFile getUploadedFileByIdentifier(String identifier) {
+        for (UploadedFile uploadedFile : getUploadedFiles()) {
+            if (uploadedFile.getIdentifier().equals(identifier))
+                return uploadedFile;
+        }
+        return null;
+    }
 
     public boolean validatePassword(String password) {
         String hashedPassword = HashPassword.getHashedPassword(password, Utility.base642binary(this.getSalt()));

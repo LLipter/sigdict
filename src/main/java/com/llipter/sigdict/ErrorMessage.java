@@ -34,6 +34,8 @@ public class ErrorMessage {
 
     public static final String SIGNATURE_ALGORITHM_INVALID = "SIGNATURE ALGORITHM INVALID";
 
+    public static final String FILE_IDENTIFIER_INVALID = "FILE IDENTIFIER IS NOT VALID";
+
     public static final String BAD_REQUEST = "Sorry, your request is invalid. " +
             "Missing mandatory parameter is one possible reason. " +
             "Please do not use any third-party tools when visiting our website.";

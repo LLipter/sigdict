@@ -1,4 +1,4 @@
-package com.llipter.sigdict.storage;
+package com.llipter.sigdict.exception;
 
 public class StorageException extends RuntimeException {
 
