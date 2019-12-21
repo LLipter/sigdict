@@ -97,10 +97,12 @@ public class UploadController extends SessionController {
             else
                 privateKey = user.getUnencryptedRsaPrivateKey();
             UploadedFile uploadedFile = new UploadedFile(filename, data, signatureType, privateKey);
+            user.getUploadedFiles().add(uploadedFile);
+            userRepository.save(user);
             storageService.store(data, uploadedFile.getStoredFilename());
         } catch (IOException e) {
             e.printStackTrace();
-            return "error";
+            return "redirect:/error.html";
         }
 
         return "redirect:/main.html";

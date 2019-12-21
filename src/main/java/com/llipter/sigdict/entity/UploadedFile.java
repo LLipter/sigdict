@@ -6,6 +6,7 @@ import com.llipter.sigdict.security.SignatureType;
 import com.llipter.sigdict.utility.Utility;
 
 import javax.persistence.*;
+import java.io.File;
 import java.security.PrivateKey;
 import java.sql.Timestamp;
 
@@ -44,7 +45,10 @@ public class UploadedFile {
     }
 
     public static String generateRandomFilename() {
-        return Utility.binary2base64(Utility.getRandomBytes(STORED_FILENAME_LENGTH));
+        String filename = Utility.binary2base64(Utility.getRandomBytes(STORED_FILENAME_LENGTH));
+        filename = filename.replaceAll(File.separator, "-");
+        filename = filename.replace(File.pathSeparator, "-");
+        return filename;
     }
 
     public Integer getFid() {

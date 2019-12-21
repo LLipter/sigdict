@@ -3,6 +3,7 @@ package com.llipter.sigdict.test;
 import com.llipter.sigdict.utility.ValidateInput;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -36,5 +37,10 @@ public class UtilityTest {
         Path ano = rootLocation.resolve("X");
 
         System.out.println(ano);
+
+        String s = "///sdw:qr2/4ref";
+        s = s.replaceAll(File.separator, "-");
+        s = s.replace(File.pathSeparator, "-");
+        System.out.println(s);
     }
 }
