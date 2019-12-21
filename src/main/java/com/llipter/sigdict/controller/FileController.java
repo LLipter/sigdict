@@ -3,6 +3,8 @@ package com.llipter.sigdict.controller;
 import com.llipter.sigdict.ErrorMessage;
 import com.llipter.sigdict.entity.UploadedFile;
 import com.llipter.sigdict.entity.User;
+import com.llipter.sigdict.exception.InternalServerException;
+import com.llipter.sigdict.exception.BadRequestException;
 import com.llipter.sigdict.security.SignatureType;
 import com.llipter.sigdict.security.SymmetricEncryption;
 import com.llipter.sigdict.storage.StorageService;
@@ -22,7 +24,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.InvalidParameterException;
 import java.security.PrivateKey;
 
 @Controller
@@ -105,7 +106,7 @@ public class FileController extends SessionController {
             storageService.store(data, uploadedFile.getIdentifier());
         } catch (IOException e) {
             e.printStackTrace();
-            return "redirect:/error.html";
+            throw new InternalServerException(ErrorMessage.CANNOT_SAVE_FILE, e);
         }
 
         return "redirect:/main.html";
@@ -116,7 +117,7 @@ public class FileController extends SessionController {
     public String handleMaxUploadSizeExceededException(MaxUploadSizeExceededException exception,
                                                        RedirectAttributes redirectAttributes) {
         PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.MAX_FILE_SIZE_EXCEEDED);
-        System.out.println("handled");
+//        System.out.println("handled");
         return "redirect:/upload.html";
     }
 
@@ -132,9 +133,11 @@ public class FileController extends SessionController {
 
         UploadedFile uploadedFile = user.getUploadedFileByIdentifier(fileIdentifier);
         if (uploadedFile == null) {
-            throw new InvalidParameterException(ErrorMessage.FILE_IDENTIFIER_INVALID);
+            // malicious request
+            throw new BadRequestException(ErrorMessage.FILE_IDENTIFIER_INVALID);
         }
-        
+
+
         return "redirect:/main.html";
     }
 }

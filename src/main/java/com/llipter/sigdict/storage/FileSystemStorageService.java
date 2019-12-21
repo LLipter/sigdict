@@ -1,6 +1,7 @@
 package com.llipter.sigdict.storage;
 
-import com.llipter.sigdict.exception.StorageException;
+import com.llipter.sigdict.ErrorMessage;
+import com.llipter.sigdict.exception.InternalServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
@@ -27,7 +28,7 @@ public class FileSystemStorageService implements StorageService {
         try {
             Files.createDirectories(rootLocation);
         } catch (IOException e) {
-            throw new StorageException("Could not initialize storage", e);
+            throw new InternalServerException("Could not initialize storage", e);
         }
     }
 
@@ -37,8 +38,18 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public void store(byte[] data, String storedFilename) throws IOException {
-        Files.write(this.rootLocation.resolve(storedFilename), data, StandardOpenOption.CREATE);
+    public void store(byte[] data, String storedFilename) {
+        try {
+            Files.write(this.rootLocation.resolve(storedFilename), data, StandardOpenOption.CREATE);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new InternalServerException(ErrorMessage.CANNOT_SAVE_FILE, e);
+        }
+    }
+
+    @Override
+    public void remove(String storedFilename) {
+
     }
 
 }

@@ -8,5 +8,7 @@ public interface StorageService {
 
     void deleteAll();
 
-    void store(byte[] data, String storedFilename) throws IOException;
+    void store(byte[] data, String storedFilename);
+
+    void remove(String storedFilename);
 }
