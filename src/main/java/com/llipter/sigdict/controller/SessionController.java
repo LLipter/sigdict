@@ -20,43 +20,33 @@ public abstract class SessionController {
     @Autowired
     protected SessionRepository sessionRepository;
 
-    public boolean validateSession(HttpServletRequest request) {
+    // return a user if session is valid
+    protected User validateSession(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         String sessionId = Session.getSessionIdFromCookies(cookies);
-        if (validateSessionId(sessionId)) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean validateSessionId(String sessionId) {
         if (sessionId == null)
-            return false;
+            return null;
 
         Session session = sessionRepository.findBySessionId(sessionId);
         if (session == null)
-            return false;
+            return null;
 
         Timestamp now = new Timestamp(System.currentTimeMillis());
         if (now.after(session.getValidThrough())) {
             // delete expired session
             deleteSession(session);
-            return false;
+            return null;
         }
 
         // session is valid
         // refresh session
-        refreshSession(session);
-
-        return true;
-    }
-
-    public void refreshSession(Session session) {
         session.setValidThrough(Session.getRefreshedValidThrough());
         sessionRepository.save(session);
+
+        return session.getUser();
     }
 
-    public void deleteSession(Session session) {
+    protected void deleteSession(Session session) {
         User user = session.getUser();
         session.setUser(null);
         user.setSession(null);
@@ -64,7 +54,7 @@ public abstract class SessionController {
         sessionRepository.delete(session);
     }
 
-    public void deleteSession(HttpServletRequest request) {
+    protected void deleteSession(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         String sessionId = Session.getSessionIdFromCookies(cookies);
         if (sessionId == null)
@@ -77,10 +67,4 @@ public abstract class SessionController {
         deleteSession(session);
     }
 
-    public User getUserFromSession(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        String sessionId = Session.getSessionIdFromCookies(cookies);
-        Session session = sessionRepository.findBySessionId(sessionId);
-        return session.getUser();
-    }
 }

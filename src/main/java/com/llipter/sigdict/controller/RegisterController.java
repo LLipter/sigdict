@@ -31,7 +31,7 @@ public class RegisterController extends SessionController {
                            HttpServletResponse response,
                            RedirectAttributes redirectAttributes) {
 
-        if (validateSession(request)) {
+        if (validateSession(request) != null) {
             PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.LOGOUT_FIRST);
             return "redirect:/register.html";
         }

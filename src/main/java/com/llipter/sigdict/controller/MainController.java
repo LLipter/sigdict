@@ -17,13 +17,12 @@ public class MainController extends SessionController {
     public String getMainPage(Model model,
                               HttpServletRequest request,
                               RedirectAttributes redirectAttributes) {
-        if (!validateSession(request)) {
+        User user = validateSession(request);
+        if (user == null) {
             // haven't signed in
             PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.SIGH_IN_FIRST);
             return "redirect:/login.html";
         }
-
-        User user = getUserFromSession(request);
         PassMessage.addUserMessage(model, user);
         return "main";
     }

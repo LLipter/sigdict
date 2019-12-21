@@ -14,10 +14,9 @@ public class IndexController extends SessionController {
     @GetMapping(value = {"/", "/index.html"})
     public String getIndexPage(Model model,
                                HttpServletRequest request) {
-        if (validateSession(request)) {
-            User user = getUserFromSession(request);
+        User user = validateSession(request);
+        if (user != null)
             PassMessage.addUserMessage(model, user);
-        }
         return "index";
     }
 }

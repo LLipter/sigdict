@@ -15,7 +15,7 @@ public class LogoutController extends SessionController {
     public String logout(
             HttpServletRequest request,
             RedirectAttributes redirectAttributes) {
-        if (!validateSession(request)) {
+        if (validateSession(request) == null) {
             // haven't signed in
             PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.NOT_SIGN_IN_YET);
             return "redirect:/login.html";

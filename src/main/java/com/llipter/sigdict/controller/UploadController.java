@@ -23,7 +23,7 @@ public class UploadController extends SessionController {
     public String getUploadPage(Model model,
                                 HttpServletRequest request,
                                 RedirectAttributes redirectAttributes) {
-        if (!validateSession(request)) {
+        if (validateSession(request) == null) {
             PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.SIGH_IN_FIRST);
             return "redirect:/login.html";
         }
@@ -36,7 +36,7 @@ public class UploadController extends SessionController {
                              @RequestParam(name = "algorithm", required = true) String algorithm,
                              HttpServletRequest request,
                              RedirectAttributes redirectAttributes) {
-        if (!validateSession(request)) {
+        if (validateSession(request) == null) {
             PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.SIGH_IN_FIRST);
             return "redirect:/login.html";
         }

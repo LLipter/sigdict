@@ -29,7 +29,7 @@ public class LoginController extends SessionController {
                         HttpServletResponse response,
                         RedirectAttributes redirectAttributes) {
 
-        if (validateSession(request)) {
+        if (validateSession(request) != null) {
             // user already signed in
             PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.ALREADY_SIGNED_IN);
             return "redirect:/login.html";
