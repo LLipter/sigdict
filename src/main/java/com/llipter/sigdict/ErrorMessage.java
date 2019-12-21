@@ -36,6 +36,8 @@ public class ErrorMessage {
 
     public static final String FILE_IDENTIFIER_INVALID = "FILE IDENTIFIER IS NOT VALID";
 
+    public static final String FILE_NOT_FOUND = "FILE NOT FOUND";
+
     public static final String CANNOT_SAVE_FILE = "CANNOT SAVE FILE";
 
     public static final String CANNOT_DELETE_FILE = "CANNOT DELETE FILE";

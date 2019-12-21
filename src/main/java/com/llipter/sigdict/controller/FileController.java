@@ -12,11 +12,11 @@ import com.llipter.sigdict.utility.PassMessage;
 import com.llipter.sigdict.utility.ValidateInput;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -117,7 +117,6 @@ public class FileController extends SessionController {
     public String handleMaxUploadSizeExceededException(MaxUploadSizeExceededException exception,
                                                        RedirectAttributes redirectAttributes) {
         PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.MAX_FILE_SIZE_EXCEEDED);
-//        System.out.println("handled");
         return "redirect:/upload.html";
     }
 
@@ -146,4 +145,27 @@ public class FileController extends SessionController {
 
         return "redirect:/main.html";
     }
+
+    @GetMapping("/download")
+    @ResponseBody
+    public ResponseEntity<Resource> downloadFile(HttpServletRequest request,
+                                                 @RequestParam(name = "identifier", required = true) String fileIdentifier) {
+
+        User user = validateSession(request);
+        if (user == null) {
+            // malicious request
+            throw new BadRequestException(ErrorMessage.SIGH_IN_FIRST);
+        }
+
+        UploadedFile uploadedFile = user.getUploadedFileByIdentifier(fileIdentifier);
+        if (uploadedFile == null) {
+            // malicious request
+            throw new BadRequestException(ErrorMessage.FILE_IDENTIFIER_INVALID);
+        }
+
+        Resource file = storageService.loadAsResource(fileIdentifier);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+
 }
