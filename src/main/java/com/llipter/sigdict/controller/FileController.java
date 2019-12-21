@@ -16,6 +16,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
@@ -171,6 +172,27 @@ public class FileController extends SessionController {
         }
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + uploadedFile.getFilename() + "\"").body(file);
+    }
+
+    @GetMapping(value = "/detail")
+    public String getDetailPage(HttpServletRequest request,
+                                RedirectAttributes redirectAttributes,
+                                Model model,
+                                @RequestParam(name = "identifier", required = true) String fileIdentifier) {
+        User user = validateSession(request);
+        if (user == null) {
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.SIGH_IN_FIRST);
+            return "redirect:/login.html";
+        }
+
+        UploadedFile uploadedFile = user.getUploadedFileByIdentifier(fileIdentifier);
+        if (uploadedFile == null) {
+            // malicious request
+            throw new BadRequestException(ErrorMessage.FILE_IDENTIFIER_INVALID);
+        }
+
+        PassMessage.addModelDetailPageMessage(model, uploadedFile);
+        return "detail";
     }
 
 }
