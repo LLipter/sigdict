@@ -22,8 +22,10 @@ public class UploadedFile {
 
     private String storedFilename;
 
-    @Column(length = 512)
-    private String signature;
+    // DSA = 62
+    // RSA = 256
+    @Column(length = 256)
+    private byte[] signature;
 
     @Basic
     private Timestamp uploadTime;
@@ -81,11 +83,11 @@ public class UploadedFile {
         this.storedFilename = storedFilename;
     }
 
-    public String getSignature() {
+    public byte[] getSignature() {
         return signature;
     }
 
-    public void setSignature(String signature) {
+    public void setSignature(byte[] signature) {
         this.signature = signature;
     }
 
