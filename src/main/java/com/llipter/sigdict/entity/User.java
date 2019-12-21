@@ -60,6 +60,12 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Session session;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private VerificationToken verificationToken;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private ResetPasswordToken resetPasswordToken;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UploadedFile> uploadedFiles;
 
@@ -245,6 +251,22 @@ public class User {
 
     public void setSession(Session session) {
         this.session = session;
+    }
+
+    public VerificationToken getVerificationToken() {
+        return verificationToken;
+    }
+
+    public void setVerificationToken(VerificationToken verificationToken) {
+        this.verificationToken = verificationToken;
+    }
+
+    public ResetPasswordToken getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(ResetPasswordToken resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
     }
 
     public List<UploadedFile> getUploadedFiles() {
