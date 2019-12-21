@@ -32,16 +32,22 @@ public class UploadedFile {
     @Column(columnDefinition = "smallint")
     private SignatureType signatureType;
 
+    private boolean encrypted;
 
     public UploadedFile() {
     }
 
-    public UploadedFile(String filename, byte[] data, SignatureType signatureType, PrivateKey privateKey) {
+    public UploadedFile(String filename,
+                        byte[] data,
+                        SignatureType signatureType,
+                        PrivateKey privateKey,
+                        boolean encrypted) {
         this.setFilename(filename);
         this.setSignature(DigitalSignature.sign(signatureType, privateKey, data));
         this.setUploadTime(new Timestamp(System.currentTimeMillis()));
         this.setSignatureType(signatureType);
         this.setStoredFilename(generateRandomFilename());
+        this.setEncrypted((encrypted));
     }
 
     public static String generateRandomFilename() {
@@ -97,5 +103,13 @@ public class UploadedFile {
 
     public void setSignatureType(SignatureType signatureType) {
         this.signatureType = signatureType;
+    }
+
+    public boolean isEncrypted() {
+        return encrypted;
+    }
+
+    public void setEncrypted(boolean encrypted) {
+        this.encrypted = encrypted;
     }
 }

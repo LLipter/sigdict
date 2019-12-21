@@ -97,6 +97,12 @@ public class User {
         return KeyConverter.bytes2SecretKey(masterKey);
     }
 
+    public SecretKey getUnencryptedUserEncryptionKey() {
+        SecretKey masterKey = getUnencryptedUserMasterKey();
+        byte[] encryptionKey = SymmetricEncryption.decrypt(masterKey, getUserEncryptionKey());
+        return KeyConverter.bytes2SecretKey(encryptionKey);
+    }
+
     public PrivateKey getUnencryptedDsaPrivateKey() {
         SecretKey masterKey = getUnencryptedUserMasterKey();
         byte[] dsaPrivateKey = SymmetricEncryption.decrypt(masterKey, getDsaPrivateKey());

@@ -4,6 +4,7 @@ import com.llipter.sigdict.ErrorMessage;
 import com.llipter.sigdict.entity.UploadedFile;
 import com.llipter.sigdict.entity.User;
 import com.llipter.sigdict.security.SignatureType;
+import com.llipter.sigdict.security.SymmetricEncryption;
 import com.llipter.sigdict.storage.StorageService;
 import com.llipter.sigdict.utility.PassMessage;
 import com.llipter.sigdict.utility.ValidateInput;
@@ -96,9 +97,12 @@ public class UploadController extends SessionController {
                 privateKey = user.getUnencryptedDsaPrivateKey();
             else
                 privateKey = user.getUnencryptedRsaPrivateKey();
-            UploadedFile uploadedFile = new UploadedFile(filename, data, signatureType, privateKey);
+            UploadedFile uploadedFile = new UploadedFile(filename, data, signatureType, privateKey, encrypted);
             user.getUploadedFiles().add(uploadedFile);
             userRepository.save(user);
+            if (encrypted) {
+                data = SymmetricEncryption.encrypt(user.getUnencryptedUserEncryptionKey(), data);
+            }
             storageService.store(data, uploadedFile.getStoredFilename());
         } catch (IOException e) {
             e.printStackTrace();
