@@ -1,11 +1,16 @@
 package com.llipter.sigdict.utility;
 
+import com.llipter.sigdict.ErrorMessage;
 import com.llipter.sigdict.entity.MainPageFile;
 import com.llipter.sigdict.entity.UploadedFile;
 import com.llipter.sigdict.entity.User;
+import com.llipter.sigdict.exception.InternalServerException;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +31,17 @@ public class PassMessage {
         for (UploadedFile uploadedFile : uploadedFiles) {
             MainPageFile mainPageFile = new MainPageFile();
             mainPageFile.setFilename(uploadedFile.getFilename());
-            mainPageFile.setIdentifier(uploadedFile.getIdentifier());
+            try {
+                // The identifier will appear in user's main page
+                // and will be used to construct a url
+                // thus this encoding will prevent special characters like "+" from being misinterpreted.
+                mainPageFile.setIdentifier(
+                        URLEncoder.encode(uploadedFile.getIdentifier(),
+                                StandardCharsets.UTF_8.toString()));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                throw new InternalServerException(ErrorMessage.CANNOT_ENCODE, e);
+            }
             mainPageFile.setDate(Utility.timestamp2String(uploadedFile.getUploadTime()));
             mainPageFiles.add(mainPageFile);
         }

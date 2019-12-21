@@ -34,7 +34,12 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public void deleteAll() {
-        FileSystemUtils.deleteRecursively(rootLocation.toFile());
+        try {
+            FileSystemUtils.deleteRecursively(rootLocation);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new InternalServerException(ErrorMessage.CANNOT_DELETE_FILE, e);
+        }
     }
 
     @Override
@@ -49,7 +54,12 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public void remove(String storedFilename) {
-
+        try {
+            FileSystemUtils.deleteRecursively(this.rootLocation.resolve(storedFilename));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new InternalServerException(ErrorMessage.CANNOT_DELETE_FILE, e);
+        }
     }
 
 }

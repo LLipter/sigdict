@@ -123,6 +123,16 @@ public class User {
         return null;
     }
 
+    public void removeUploadedFileByIdentifier(String identifier) {
+        List<UploadedFile> uploadedFiles = this.getUploadedFiles();
+        for (int i = 0; i < uploadedFiles.size(); i++) {
+            if (uploadedFiles.get(i).getIdentifier().equals(identifier)) {
+                uploadedFiles.remove(i);
+                return;
+            }
+        }
+    }
+
     public boolean validatePassword(String password) {
         String hashedPassword = HashPassword.getHashedPassword(password, Utility.base642binary(this.getSalt()));
         if (hashedPassword.equals(this.getHashedPassword()))

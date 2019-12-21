@@ -3,8 +3,8 @@ package com.llipter.sigdict.controller;
 import com.llipter.sigdict.ErrorMessage;
 import com.llipter.sigdict.entity.UploadedFile;
 import com.llipter.sigdict.entity.User;
-import com.llipter.sigdict.exception.InternalServerException;
 import com.llipter.sigdict.exception.BadRequestException;
+import com.llipter.sigdict.exception.InternalServerException;
 import com.llipter.sigdict.security.SignatureType;
 import com.llipter.sigdict.security.SymmetricEncryption;
 import com.llipter.sigdict.storage.StorageService;
@@ -137,6 +137,12 @@ public class FileController extends SessionController {
             throw new BadRequestException(ErrorMessage.FILE_IDENTIFIER_INVALID);
         }
 
+        // delete file from server disk
+        storageService.remove(fileIdentifier);
+
+        // delete record in database
+        user.removeUploadedFileByIdentifier(fileIdentifier);
+        userRepository.save(user);
 
         return "redirect:/main.html";
     }

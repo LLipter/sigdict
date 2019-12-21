@@ -1,7 +1,5 @@
 package com.llipter.sigdict.storage;
 
-import java.io.IOException;
-
 public interface StorageService {
 
     void init();
