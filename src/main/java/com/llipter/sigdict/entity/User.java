@@ -23,6 +23,8 @@ public class User {
 
     private String email;
 
+    private boolean verified;
+
     private String salt;
 
     // 838
@@ -70,6 +72,7 @@ public class User {
         this.setUsername(username);
         this.setHashedPassword(HashPassword.getHashedPassword(password, salt));
         this.setEmail(email);
+        this.setVerified(false);
         this.setSalt(Utility.binary2base64(salt));
         this.setUploadedFiles(new ArrayList<>());
 
@@ -170,6 +173,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
     }
 
     public String getSalt() {

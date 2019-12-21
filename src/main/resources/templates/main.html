@@ -50,8 +50,8 @@
                     <span th:text="${email}"></span>
                 </div>
                 <div class="w3-col m8 w3-right">
-                    <!-- <span class="w3-right"><b>VERIFIED ✅</b></span> -->
-                    <a class="w3-right" href="#"><b>VERIFY YOUR EMAIL ADDRESS »</b></a>
+                    <span class="w3-right" th:if="${email_verified}"><b>VERIFIED ✅</b></span>
+                    <a class="w3-right" href="#" th:unless="${email_verified}"><b>VERIFY YOUR EMAIL ADDRESS »</b></a>
                 </div>
             </div>
 
