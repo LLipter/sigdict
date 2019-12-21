@@ -1,8 +1,13 @@
 package com.llipter.sigdict.utility;
 
+import com.llipter.sigdict.entity.MainPageFile;
+import com.llipter.sigdict.entity.UploadedFile;
 import com.llipter.sigdict.entity.User;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PassMessage {
     public static void addModelErrorMessage(Model model, String errorMessage) {
@@ -13,6 +18,20 @@ public class PassMessage {
     public static void addModelErrorPageMessage(Model model, String errorTitle, String errorMessage) {
         model.addAttribute("error_title", errorTitle);
         model.addAttribute("error_msg", errorMessage);
+    }
+
+    public static void addModelMainPageFiles(Model model, User user) {
+        List<MainPageFile> mainPageFiles = new ArrayList<MainPageFile>();
+        List<UploadedFile> uploadedFiles = user.getUploadedFiles();
+        for (UploadedFile uploadedFile : uploadedFiles) {
+            MainPageFile mainPageFile = new MainPageFile();
+            mainPageFile.setFilename(uploadedFile.getFilename());
+            mainPageFile.setIdentifier(uploadedFile.getStoredFilename());
+            mainPageFile.setDate(Utility.timestamp2String(uploadedFile.getUploadTime()));
+            mainPageFiles.add(mainPageFile);
+        }
+        model.addAttribute("files", mainPageFiles);
+        model.addAttribute("file_number", mainPageFiles.size());
     }
 
     public static void addRedirectAttributesErrorMessage(RedirectAttributes redirectAttributes, String errorMessage) {

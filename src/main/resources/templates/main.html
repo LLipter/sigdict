@@ -97,53 +97,40 @@
 
     <div class="w3-card-4 w3-white w3-margin-top w3-padding-16 w3-container">
         <div class="w3-container">
+            <h3>
+                <b>File List</b>
+            </h3>
             <input class="w3-input w3-border w3-padding" id="search_bar" onkeyup="filter_search()"
-                   placeholder="Search for names.."
+                   placeholder="Search for filenames.."
                    type="text">
 
             <table class="w3-table-all w3-margin-top" id="signature_table">
                 <tr>
-                    <th style="width:60%;">Name</th>
-                    <th style="width:40%;">Country</th>
+                    <th style="width:30%;">Filename</th>
+                    <th style="width:30%;">Upload Time</th>
+                    <th style="width:20%;"></th>
+                    <th style="width:20%;"></th>
                 </tr>
-                <tr>
-                    <td>Alfreds Futterkiste</td>
-                    <td>Germany</td>
-                </tr>
-                <tr>
-                    <td>Berglunds snabbkop</td>
-                    <td>Sweden</td>
-                </tr>
-                <tr>
-                    <td>Island Trading</td>
-                    <td>UK</td>
-                </tr>
-                <tr>
-                    <td>Koniglich Essen</td>
-                    <td>Germany</td>
-                </tr>
-                <tr>
-                    <td>Laughing Bacchus Winecellars</td>
-                    <td>Canada</td>
-                </tr>
-                <tr>
-                    <td>Magazzini Alimentari Riuniti</td>
-                    <td>Italy</td>
-                </tr>
-                <tr>
-                    <td>North/South</td>
-                    <td>UK</td>
-                </tr>
-                <tr>
-                    <td>Paris specialites</td>
-                    <td>France</td>
+                <tr th:each="file: ${files}">
+                    <td th:text="${file.filename}"/>
+                    <td th:text="${file.date}"/>
+                    <td>
+                        <a class="w3-right" th:href="@{'/delete?identifier=' + ${file.identifier}}">
+                            <b>DELETE »</b>
+                        </a>
+                    </td>
+                    <td>
+                        <a class="w3-right" th:href="@{'/details?identifier=' + ${file.identifier}}">
+                            <b>DETAILS »</b>
+                        </a>
+                    </td>
                 </tr>
             </table>
 
         </div>
         <div class="w3-container">
             <p>
-                In total, you have 12 files.
+                In total, you have <b th:text="${file_number}"></b> files.
             </p>
             <div class="w3-row w3-right">
                 <div class="w3-col">

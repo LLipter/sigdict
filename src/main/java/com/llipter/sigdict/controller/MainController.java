@@ -24,6 +24,7 @@ public class MainController extends SessionController {
             return "redirect:/login.html";
         }
         PassMessage.addUserMessage(model, user);
+        PassMessage.addModelMainPageFiles(model, user);
         return "main";
     }
 }
