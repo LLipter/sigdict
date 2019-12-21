@@ -4,7 +4,13 @@ import com.llipter.sigdict.entity.User;
 import com.llipter.sigdict.security.SignatureType;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 public interface StorageService {
 
-    void store(MultipartFile file, User user, SignatureType signatureType, boolean encrypted);
+    void init();
+
+    void deleteAll();
+
+    void store(byte[] data, String storedFilename) throws IOException;
 }

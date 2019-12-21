@@ -33,3 +33,6 @@ out/
 
 ### mac ###
 .DS_Store
+
+### upload-dir
+upload-dir/*
