@@ -2,7 +2,7 @@ package com.llipter.sigdict.storage;
 
 import org.springframework.core.io.Resource;
 
-import java.nio.file.Path;
+import javax.crypto.SecretKey;
 
 public interface StorageService {
 
@@ -14,5 +14,7 @@ public interface StorageService {
 
     void remove(String storedFilename);
 
-    Resource loadAsResource(String identifier);
+    Resource loadUnencryptedAsResource(String identifier);
+
+    Resource loadEncryptedAsResource(String identifier, SecretKey key);
 }

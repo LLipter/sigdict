@@ -163,7 +163,12 @@ public class FileController extends SessionController {
             throw new BadRequestException(ErrorMessage.FILE_IDENTIFIER_INVALID);
         }
 
-        Resource file = storageService.loadAsResource(fileIdentifier);
+        Resource file = null;
+        if (uploadedFile.isEncrypted()) {
+            file = storageService.loadEncryptedAsResource(fileIdentifier, user.getUnencryptedUserEncryptionKey());
+        } else {
+            file = storageService.loadUnencryptedAsResource(fileIdentifier);
+        }
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
