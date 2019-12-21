@@ -44,6 +44,11 @@ public class ErrorMessage {
 
     public static final String CANNOT_ENCODE = "CANNOT ENCODE";
 
+    public static final String EMAIL_ALREADY_VERIFIED = "EMAIL ALREADY VERIFIED";
+
+    public static final String EMAIL_SENT = "A LINK HAS BEEN SENT TO YOUR EMAIL ADDRESS, " +
+            "PLEASE CLICK THE LINK TO VERIFY YOUR EMAIL ADDRESS.";
+
     public static final String BAD_REQUEST = "Sorry, your request is invalid. " +
             "Missing or incorrect mandatory parameter is one possible reason. " +
             "Please do not use any third-party tools when visiting our website.";

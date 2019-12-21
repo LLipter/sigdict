@@ -23,6 +23,12 @@
 <!-- container -->
 <div class="w3-content" style="max-width:1000px">
 
+    <div class="w3-card-4 w3-padding-16 w3-white w3-container w3-margin-bottom" th:if="${has_error}">
+        <div class="w3-center">
+            <b style="color:red" th:text="${error_msg}"></b>
+        </div>
+    </div>
+
     <div class="w3-card-4 w3-white">
         <img src="https://www.w3schools.com/w3images/bridge.jpg" style="width:100%" th:src=@{/image/bridge.jpg}>
     </div>
@@ -51,7 +57,8 @@
                 </div>
                 <div class="w3-col m8 w3-right">
                     <span class="w3-right" th:if="${email_verified}"><b>VERIFIED ✅</b></span>
-                    <a class="w3-right" href="#" th:unless="${email_verified}"><b>VERIFY YOUR EMAIL ADDRESS »</b></a>
+                    <a class="w3-right" th:href="@{/verifyemail}" th:unless="${email_verified}"><b>VERIFY YOUR EMAIL
+                        ADDRESS »</b></a>
                 </div>
             </div>
 
