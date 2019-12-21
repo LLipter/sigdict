@@ -33,29 +33,56 @@
             <h3>
                 <b>Account Information</b>
             </h3>
-            <p>Username: <span th:text="${username}"></span></p>
-            <p>
-                Email: <span th:text="${email}"></span>
-                <!-- <span class="w3-right"><b>VERIFIED ✅</b></span> -->
-                <a class="w3-right" href="#"><b>VERIFY YOUR EMAIL ADDRESS »</b></a>
-            </p>
-            <p>
-                DSA Public Key:
-                <a class="w3-right" onclick="show_hide('dsa_pubkey', 'show_hide_btn_dsa')"
-                   style="cursor:pointer;text-decoration:underline;"><b
-                        id="show_hide_btn_dsa">SHOW »</b></a>
-            </p>
+            <div class="w3-row w3-margin-top">
+                <div class="w3-col m2">
+                    <b>Username:</b>
+                </div>
+                <div class="w3-col m2">
+                    <span th:text="${username}"></span>
+                </div>
+            </div>
+
+            <div class="w3-row w3-margin-top">
+                <div class="w3-col m2">
+                    <b>Email:</b>
+                </div>
+                <div class="w3-col m2">
+                    <span th:text="${email}"></span>
+                </div>
+                <div class="w3-col m8 w3-right">
+                    <!-- <span class="w3-right"><b>VERIFIED ✅</b></span> -->
+                    <a class="w3-right" href="#"><b>VERIFY YOUR EMAIL ADDRESS »</b></a>
+                </div>
+            </div>
+
+            <div class="w3-row w3-margin-top">
+                <div class="w3-col m2">
+                    <b>DSA Public Key:</b>
+                </div>
+                <div class="w3-col m10">
+                    <a class="w3-right" onclick="show_hide('dsa_pubkey', 'show_hide_btn_dsa')"
+                       style="cursor:pointer;text-decoration:underline;"><b
+                            id="show_hide_btn_dsa">SHOW »</b></a>
+                </div>
+            </div>
+
             <div class="w3-hide" id="dsa_pubkey">
                 <p style="word-wrap:break-word">
                     <span th:text="${dsa_pubkey}"></span>
                 </p>
             </div>
-            <p>
-                RSA Public Key:
-                <a class="w3-right" onclick="show_hide('rsa_pubkey', 'show_hide_btn_rsa')"
-                   style="cursor:pointer;text-decoration:underline;"><b
-                        id="show_hide_btn_rsa">SHOW »</b></a>
-            </p>
+
+            <div class="w3-row w3-margin-top">
+                <div class="w3-col m2">
+                    <b>RSA Public Key:</b>
+                </div>
+                <div class="w3-col m10">
+                    <a class="w3-right" onclick="show_hide('rsa_pubkey', 'show_hide_btn_rsa')"
+                       style="cursor:pointer;text-decoration:underline;"><b
+                            id="show_hide_btn_rsa">SHOW »</b></a>
+                </div>
+            </div>
+
             <div class="w3-hide" id="rsa_pubkey">
                 <p style="word-wrap:break-word">
                     <span th:text="${rsa_pubkey}"></span>
