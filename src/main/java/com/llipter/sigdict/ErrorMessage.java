@@ -44,6 +44,8 @@ public class ErrorMessage {
 
     public static final String CANNOT_ENCODE = "CANNOT ENCODE";
 
+    public static final String CANNOT_SEND_EMAIL = "CANNOT SEND EMAIL";
+
     public static final String EMAIL_ALREADY_VERIFIED = "EMAIL ALREADY VERIFIED";
 
     public static final String EMAIL_SENT = "A LINK HAS BEEN SENT TO YOUR EMAIL ADDRESS, " +
