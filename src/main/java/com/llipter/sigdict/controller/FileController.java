@@ -170,7 +170,7 @@ public class FileController extends SessionController {
             file = storageService.loadUnencryptedAsResource(fileIdentifier);
         }
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+                "attachment; filename=\"" + uploadedFile.getFilename() + "\"").body(file);
     }
 
 }
