@@ -51,6 +51,13 @@ public class ErrorMessage {
     public static final String EMAIL_SENT = "A LINK HAS BEEN SENT TO YOUR EMAIL ADDRESS, " +
             "PLEASE CLICK THE LINK TO VERIFY YOUR EMAIL ADDRESS.";
 
+    public static final String TOKEN_INVALID = "TOKEN INVALID";
+
+    public static final String LINK_EXPIRED = "LINK EXPIRED";
+
+    public static final String LINK_EXPIRED_MESSAGE = "Sorry, your link is expired. " +
+            "Please regenerate the link through our website";
+
     public static final String BAD_REQUEST = "Sorry, your request is invalid. " +
             "Missing or incorrect mandatory parameter is one possible reason. " +
             "Please do not use any third-party tools when visiting our website.";
