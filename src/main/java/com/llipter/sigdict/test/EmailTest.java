@@ -1,6 +1,6 @@
 package com.llipter.sigdict.test;
 
-import com.llipter.sigdict.utility.Email;
+import com.llipter.sigdict.utility.EmailHelper;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -14,17 +14,23 @@ public class EmailTest {
 
 
     public static void main(String args[]) throws AddressException, MessagingException {
-//        Email.sendEmail(
+//        EmailHelper.sendEmail(
 //                "llipter@outlook.com",
 //                "君のことが大好きだ！",
 //                "今でも君はわたしの光だ");
-//        Email.sendEmail(
+//        EmailHelper.sendEmail(
 //                "llipter@outlook.com",
 //                "[Action Required] SigDict: Verify your email address",
 //                "Click the following link to verify your email address: http://xxxx");
 
-        System.out.println(Email.getVerificationEmailContent("Ran", "http:/localhost/sdsdsafe"));
-        System.out.println(Email.getResetPasswordEmailContent("Ran", "http:/localhost/sdsdsafe"));
+        System.out.println(EmailHelper.getVerificationEmailContent("Ran", "http:/localhost/sdsdsafe"));
+        System.out.println(EmailHelper.getResetPasswordEmailContent("Ran", "http:/localhost/sdsdsafe"));
+
+
+//        EmailHelper.sendEmail(
+//                "not-exist@sigdict.com",
+//                "君のことが大好きだ！",
+//                "今でも君はわたしの光だ");
     }
 
 

@@ -2,8 +2,11 @@ package com.llipter.sigdict.controller;
 
 import com.llipter.sigdict.ErrorMessage;
 import com.llipter.sigdict.entity.User;
+import com.llipter.sigdict.entity.VerificationToken;
 import com.llipter.sigdict.exception.BadRequestException;
+import com.llipter.sigdict.utility.EmailHelper;
 import com.llipter.sigdict.utility.PassMessage;
+import com.llipter.sigdict.utility.Utility;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -26,8 +29,25 @@ public class EmailController extends SessionController {
             throw new BadRequestException(ErrorMessage.EMAIL_ALREADY_VERIFIED);
         }
 
-        PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.EMAIL_SENT);
+        // get token
+        VerificationToken token = null;
+        if (user.getVerificationToken() == null) {
+            // create token for the first time
+            token = new VerificationToken();
+            user.setVerificationToken(token);
+        } else {
+            // refresh token otherwise
+            token = user.getVerificationToken();
+            token.setValidThrough(VerificationToken.getRefreshedValidThrough());
+        }
 
+        // send email
+        EmailHelper.sendVerificagionEmail(user.getUsername(),
+                user.getEmail(),
+                Utility.getBaseUrlFromRequest(request),
+                user.getVerificationToken().getToken());
+
+        PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.EMAIL_SENT);
         return "redirect:/main.html";
     }
 }

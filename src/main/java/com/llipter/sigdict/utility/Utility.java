@@ -1,5 +1,6 @@
 package com.llipter.sigdict.utility;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.Timestamp;
@@ -36,6 +37,15 @@ public class Utility {
         Date date = new Date();
         date.setTime(timestamp.getTime());
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+    }
+
+    public static String getBaseUrlFromRequest(HttpServletRequest request) {
+        String baseUrl = String.format(
+                "%s://%s:%d",
+                request.getScheme(),
+                request.getServerName(),
+                request.getServerPort());
+        return baseUrl;
     }
 
 }

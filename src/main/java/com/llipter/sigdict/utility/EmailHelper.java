@@ -6,9 +6,12 @@ import com.llipter.sigdict.exception.InternalServerException;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
-public class Email {
+public class EmailHelper {
     private static final String username = "sigdict@gmail.com";
     private static final String password = "SIGDICT2020";
     private static final String fromEmail = "sigdict@gmail.com";
@@ -41,6 +44,56 @@ public class Email {
         sb.append(link);
         sb.append(getEmailClosing());
         return sb.toString();
+    }
+
+    private static String generateVerificationUrl(String baseUrl, String token) {
+        // The identifier will appear in user's main page
+        // and will be used to construct a url
+        // thus this encoding will prevent special characters like "+=?" from being misinterpreted.
+        String encodedToken = null;
+        try {
+            encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            throw new InternalServerException(ErrorMessage.CANNOT_ENCODE, e);
+        }
+        String verificationUrl = String.format(
+                "%s/verified?token=%s",
+                baseUrl,
+                encodedToken
+        );
+        return verificationUrl;
+    }
+
+    private static String generateResetPasswordUrl(String baseUrl, String token) {
+        // The identifier will appear in user's main page
+        // and will be used to construct a url
+        // thus this encoding will prevent special characters like "+=?" from being misinterpreted.
+        String encodedToken = null;
+        try {
+            encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            throw new InternalServerException(ErrorMessage.CANNOT_ENCODE, e);
+        }
+        String verificationUrl = String.format(
+                "%s/reset?token=%s",
+                baseUrl,
+                encodedToken
+        );
+        return verificationUrl;
+    }
+
+    public static void sendVerificagionEmail(String fromUsername, String toEmail, String baseUrl, String token) {
+        String fullUrl = generateVerificationUrl(baseUrl, token);
+        String content = getVerificationEmailContent(fromUsername, fullUrl);
+        sendEmail(toEmail, VERIFICATION_EMAIL_SUBJECT, content);
+    }
+
+    public static void sendResetPasswordEmail(String fromUsername, String toEmail, String baseUrl, String token) {
+        String fullUrl = generateResetPasswordUrl(baseUrl, token);
+        String content = getResetPasswordEmailContent(fromUsername, fullUrl);
+        sendEmail(toEmail, RESET_PASSWORD_EMAIL_SUBJECT, content);
     }
 
     public static void sendEmail(String toEmail, String subject, String content) {
