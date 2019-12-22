@@ -1,6 +1,9 @@
 package com.llipter.sigdict.utility;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.Timestamp;
@@ -46,6 +49,17 @@ public class Utility {
                 request.getServerName(),
                 request.getServerPort());
         return baseUrl;
+    }
+
+    // this encoding will prevent special characters like "+=?" from being misinterpreted.
+    public static String urlEncodedString(String string){
+        String urlString = null;
+        try {
+            urlString = URLEncoder.encode(string, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return urlString;
     }
 
 }

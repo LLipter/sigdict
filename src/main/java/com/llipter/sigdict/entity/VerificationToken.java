@@ -33,6 +33,7 @@ public class VerificationToken {
     public VerificationToken(User user) {
         this();
         this.setUser(user);
+        user.setVerificationToken(this);
     }
 
     public static String generateToken() {

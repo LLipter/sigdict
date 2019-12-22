@@ -43,9 +43,7 @@ public class EmailController extends SessionController {
         VerificationToken token = null;
         if (user.getVerificationToken() == null) {
             // create token for the first time
-            token = new VerificationToken();
-            user.setVerificationToken(token);
-            token.setUser(user);
+            token = new VerificationToken(user);
         } else {
             // refresh token otherwise
             token = user.getVerificationToken();

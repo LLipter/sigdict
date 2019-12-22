@@ -33,6 +33,7 @@ public class ResetPasswordToken {
     public ResetPasswordToken(User user) {
         this();
         this.setUser(user);
+        user.setResetPasswordToken(this);
     }
 
     public static String generateToken() {

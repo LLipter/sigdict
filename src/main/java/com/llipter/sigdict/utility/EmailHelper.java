@@ -6,9 +6,6 @@ import com.llipter.sigdict.exception.InternalServerException;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 public class EmailHelper {
@@ -47,39 +44,19 @@ public class EmailHelper {
     }
 
     private static String generateVerificationUrl(String baseUrl, String token) {
-        // The identifier will appear in user's main page
-        // and will be used to construct a url
-        // thus this encoding will prevent special characters like "+=?" from being misinterpreted.
-        String encodedToken = null;
-        try {
-            encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8.toString());
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            throw new InternalServerException(ErrorMessage.CANNOT_ENCODE, e);
-        }
         String verificationUrl = String.format(
                 "%s/verified?token=%s",
                 baseUrl,
-                encodedToken
+                Utility.urlEncodedString(token)
         );
         return verificationUrl;
     }
 
     private static String generateResetPasswordUrl(String baseUrl, String token) {
-        // The identifier will appear in user's main page
-        // and will be used to construct a url
-        // thus this encoding will prevent special characters like "+=?" from being misinterpreted.
-        String encodedToken = null;
-        try {
-            encodedToken = URLEncoder.encode(token, StandardCharsets.UTF_8.toString());
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            throw new InternalServerException(ErrorMessage.CANNOT_ENCODE, e);
-        }
         String verificationUrl = String.format(
-                "%s/reset?token=%s",
+                "%s/resetpassword.html?token=%s",
                 baseUrl,
-                encodedToken
+                Utility.urlEncodedString(token)
         );
         return verificationUrl;
     }
