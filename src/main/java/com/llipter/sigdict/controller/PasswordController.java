@@ -27,7 +27,7 @@ public class PasswordController extends SessionController {
     }
 
     @PostMapping(value = "/changepassword")
-    public String changepassword(HttpServletRequest request,
+    public String changePassword(HttpServletRequest request,
                                  RedirectAttributes redirectAttributes,
                                  @RequestParam(name = "current", required = true) String passwordCurrent,
                                  @RequestParam(name = "new", required = true) String passwordNew,

@@ -74,4 +74,9 @@ public class ErrorMessage {
     public static final String UNKNOWN_ERROR = "Sorry there's an unexpected error. " +
             "Please retry or report this issue to us.";
 
+    public static final String RESET_LINK_SENT = "A link has benn sent to your email address. " +
+            "Please click the link to reset your password";
+
+    public static final String EMAIL_CHANGED = "YOUR EMAIL ADDRESS IS CHANGED";
+
 }

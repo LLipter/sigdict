@@ -31,8 +31,6 @@ dependencies {
     compile group: 'javax.mail', name: 'mail', version: '1.4.1'
     compile group: 'commons-io', name: 'commons-io', version: '2.5'
     compile "org.springframework.boot:spring-boot-configuration-processor"
-    compile group: 'javax.mail', name: 'mail', version: '1.4.1'
-
 }
 
 test {

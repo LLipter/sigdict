@@ -68,6 +68,11 @@ public class PassMessage {
         redirectAttributes.addFlashAttribute("error_msg", errorMessage);
     }
 
+    public static void addRedirectAttributesMessage(RedirectAttributes redirectAttributes, String message) {
+        redirectAttributes.addFlashAttribute("has_msg", true);
+        redirectAttributes.addFlashAttribute("msg", message);
+    }
+
     public static void addUserMessage(Model model, User user) {
         model.addAttribute("has_signed_in", true);
         model.addAttribute("username", user.getUsername());

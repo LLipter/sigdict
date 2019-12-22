@@ -8,10 +8,12 @@ import com.llipter.sigdict.repository.VerificationTokenRepository;
 import com.llipter.sigdict.utility.EmailHelper;
 import com.llipter.sigdict.utility.PassMessage;
 import com.llipter.sigdict.utility.Utility;
+import com.llipter.sigdict.utility.ValidateInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -19,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 
 @Controller
-public class VerificationController extends SessionController {
+public class EmailController extends SessionController {
 
     @Autowired
     protected VerificationTokenRepository verificationTokenRepository;
@@ -96,5 +98,47 @@ public class VerificationController extends SessionController {
         user.setVerificationToken(null);
         userRepository.save(user);
         verificationTokenRepository.delete(verificationtoken);
+    }
+
+    @GetMapping(value = "/changeemail.html")
+    public String getChangeEmailPage(HttpServletRequest request,
+                                     RedirectAttributes redirectAttributes) {
+        User user = validateSession(request);
+        if (user == null) {
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.NOT_SIGN_IN_YET);
+            return "redirect:/login.html";
+        }
+        return "changeemail";
+    }
+
+    @PostMapping(value = "/changeemail")
+    public String changeEmail(HttpServletRequest request,
+                              RedirectAttributes redirectAttributes,
+                              @RequestParam(name = "email", required = true) String email) {
+        User user = validateSession(request);
+        if (user == null) {
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.NOT_SIGN_IN_YET);
+            return "redirect:/login.html";
+        }
+
+        // validate email address
+        if (!ValidateInput.isValidEmail(email)) {
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.EMAIL_INVALID);
+            return "redirect:/changeemail.html";
+        }
+
+        // if the user has tried to verify his email address
+        // invalidate this operation
+        VerificationToken verificationToken = user.getVerificationToken();
+        if (verificationToken != null) {
+            deleteVerificationToken(verificationToken);
+        }
+
+        // change email
+        user.changeEmail(email);
+        userRepository.save(user);
+
+        PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.EMAIL_CHANGED);
+        return "redirect:/main.html";
     }
 }

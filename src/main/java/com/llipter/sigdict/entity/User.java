@@ -107,6 +107,11 @@ public class User {
         this.setHashedPassword(hashedPassword);
     }
 
+    public void changeEmail(String email) {
+        this.setEmail(email);
+        this.setVerified(false);
+    }
+
     public SecretKey getUnencryptedUserMasterKey() {
         byte[] masterKey = SymmetricEncryption.decryptWithApplicationMasterKey(getUserMasterKey());
         return KeyConverter.bytes2SecretKey(masterKey);
