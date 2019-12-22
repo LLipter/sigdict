@@ -1,13 +1,13 @@
 package com.llipter.sigdict.entity;
 
 import com.llipter.sigdict.security.*;
-import com.llipter.sigdict.utility.Utility;
 
 import javax.crypto.SecretKey;
 import javax.persistence.*;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -19,13 +19,14 @@ public class User {
     @Column(unique = true)
     private String username;
 
-    private String hashedPassword;
+    private byte[] hashedPassword;
 
     private String email;
 
     private boolean verified;
 
-    private String salt;
+    @Column(length = 16)
+    private byte[] salt;
 
     // 838
     @Column(length = 1024)
@@ -79,7 +80,7 @@ public class User {
         this.setHashedPassword(HashPassword.getHashedPassword(password, salt));
         this.setEmail(email);
         this.setVerified(false);
-        this.setSalt(Utility.binary2base64(salt));
+        this.setSalt(salt);
         this.setUploadedFiles(new ArrayList<>());
 
         // user master key
@@ -99,6 +100,11 @@ public class User {
         keyPair = DigitalSignature.generateKeyPair(SignatureType.RSA);
         this.setRsaPrivateKey(SymmetricEncryption.encrypt(masterKey, keyPair.getPrivate().getEncoded()));
         this.setRsaPublicKey(keyPair.getPublic().getEncoded());
+    }
+
+    public void changePassword(String newPassword) {
+        byte[] hashedPassword = HashPassword.getHashedPassword(newPassword, this.getSalt());
+        this.setHashedPassword(hashedPassword);
     }
 
     public SecretKey getUnencryptedUserMasterKey() {
@@ -143,10 +149,8 @@ public class User {
     }
 
     public boolean validatePassword(String password) {
-        String hashedPassword = HashPassword.getHashedPassword(password, Utility.base642binary(this.getSalt()));
-        if (hashedPassword.equals(this.getHashedPassword()))
-            return true;
-        return false;
+        byte[] hashedPassword = HashPassword.getHashedPassword(password, this.getSalt());
+        return Arrays.equals(hashedPassword, this.getHashedPassword());
     }
 
     public Integer getUid() {
@@ -165,11 +169,11 @@ public class User {
         this.username = username;
     }
 
-    public String getHashedPassword() {
+    public byte[] getHashedPassword() {
         return hashedPassword;
     }
 
-    public void setHashedPassword(String hashedPassword) {
+    public void setHashedPassword(byte[] hashedPassword) {
         this.hashedPassword = hashedPassword;
     }
 
@@ -189,11 +193,11 @@ public class User {
         this.verified = verified;
     }
 
-    public String getSalt() {
+    public byte[] getSalt() {
         return salt;
     }
 
-    public void setSalt(String salt) {
+    public void setSalt(byte[] salt) {
         this.salt = salt;
     }
 

@@ -18,7 +18,9 @@ public class LoginController extends SessionController {
 
 
     @RequestMapping(value = "/login.html", method = RequestMethod.GET)
-    public String getLoginPage() {
+    public String getLoginPage(HttpServletRequest request) {
+        if (validateSession(request) != null)
+            return "redirect:/main.html";
         return "login";
     }
 

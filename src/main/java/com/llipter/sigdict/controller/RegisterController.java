@@ -18,7 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 public class RegisterController extends SessionController {
 
     @GetMapping(path = "/register.html")
-    public String getRegisterPage() {
+    public String getRegisterPage(HttpServletRequest request) {
+        if (validateSession(request) != null)
+            return "redirect:/main.html";
         return "register";
     }
 

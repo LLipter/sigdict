@@ -10,14 +10,14 @@ public class HashPasswordTest {
         System.out.println("Username: llipter");
         System.out.println("Password: cestlavie");
         byte[] salt = HashPassword.getSalt();
-        String hashedPassword = HashPassword.getHashedPassword("cestlavie", salt);
+        String hashedPassword = Utility.binary2base64(HashPassword.getHashedPassword("cestlavie", salt));
         System.out.println("HashedPassword: " + hashedPassword);
         System.out.println("Salt: " + Utility.binary2base64(salt));
 
         System.out.println("Username: epfl");
         System.out.println("Password: eth");
         salt = HashPassword.getSalt();
-        hashedPassword = HashPassword.getHashedPassword("eth", salt);
+        hashedPassword = Utility.binary2base64(HashPassword.getHashedPassword("eth", salt));
         System.out.println("HashedPassword: " + hashedPassword);
         System.out.println("Salt: " + Utility.binary2base64(salt));
     }
