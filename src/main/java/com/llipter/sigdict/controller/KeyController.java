@@ -24,6 +24,7 @@ public class KeyController extends SessionController {
         user.changeKey();
         userRepository.save(user);
 
+        PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.KEY_CHANGED);
         return "redirect:/main.html";
     }
 }

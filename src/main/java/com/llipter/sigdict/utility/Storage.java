@@ -76,12 +76,17 @@ public class Storage {
     }
 
     public static Resource loadEncryptedAsResource(String identifier, SecretKey key) {
+        byte[] encryptedData = loadFileAsBytes(identifier);
+        byte[] unencryptedData = SymmetricEncryption.decrypt(key, encryptedData);
+        return new ByteArrayResource(unencryptedData);
+    }
+
+    public static byte[] loadFileAsBytes(String identifier) {
         try {
             Resource resource = loadUnencryptedAsResource(identifier);
             InputStream inputStream = resource.getInputStream();
-            byte[] encryptedData = IOUtils.toByteArray(inputStream);
-            byte[] unencryptedData = SymmetricEncryption.decrypt(key, encryptedData);
-            return new ByteArrayResource(unencryptedData);
+            byte[] data = IOUtils.toByteArray(inputStream);
+            return data;
         } catch (IOException e) {
             e.printStackTrace();
             throw new InternalServerException("Could not read file: " + identifier, e);

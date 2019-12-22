@@ -86,4 +86,5 @@ public class ErrorMessage {
     public static final String PASSWORD_RESET = "Your password has been reset. " +
             "Please get back to our index and sign in again.";
 
+    public static final String KEY_CHANGED = "YOUR KEYS HAVE BEEN REGENERATED. ALL SIGNATURES WILL BE UPDATED SOON.";
 }

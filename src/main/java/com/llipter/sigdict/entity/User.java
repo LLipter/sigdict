@@ -1,6 +1,7 @@
 package com.llipter.sigdict.entity;
 
 import com.llipter.sigdict.security.*;
+import com.llipter.sigdict.utility.Storage;
 
 import javax.crypto.SecretKey;
 import javax.persistence.*;
@@ -83,23 +84,28 @@ public class User {
         this.setSalt(salt);
         this.setUploadedFiles(new ArrayList<>());
 
-        // user master key
-        byte[] masterKey = SymmetricEncryption.generateKey().getEncoded();
-        this.setUserMasterKey(SymmetricEncryption.encryptWithApplicationMasterKey(masterKey));
+        SecretKey userMasterKey = SymmetricEncryption.generateKey();
+        SecretKey userEncryptionKey = SymmetricEncryption.generateKey();
+        KeyPair dsaKey = DigitalSignature.generateKeyPair(SignatureType.DSA);
+        KeyPair rsaKey = DigitalSignature.generateKeyPair(SignatureType.RSA);
+        storeAndEncryptedAllKeys(
+                userMasterKey,
+                userEncryptionKey,
+                dsaKey,
+                rsaKey);
+    }
 
-        // user encryption key
-        byte[] encryptionKey = SymmetricEncryption.generateKey().getEncoded();
-        this.setUserEncryptionKey(SymmetricEncryption.encrypt(masterKey, encryptionKey));
-
-        // dsa key pairs
-        KeyPair keyPair = DigitalSignature.generateKeyPair(SignatureType.DSA);
-        this.setDsaPrivateKey(SymmetricEncryption.encrypt(masterKey, keyPair.getPrivate().getEncoded()));
-        this.setDsaPublicKey(keyPair.getPublic().getEncoded());
-
-        // rsa key pairs
-        keyPair = DigitalSignature.generateKeyPair(SignatureType.RSA);
-        this.setRsaPrivateKey(SymmetricEncryption.encrypt(masterKey, keyPair.getPrivate().getEncoded()));
-        this.setRsaPublicKey(keyPair.getPublic().getEncoded());
+    private void storeAndEncryptedAllKeys(
+            SecretKey userMasterKey,
+            SecretKey userEncryptionKey,
+            KeyPair dsaKey,
+            KeyPair rsaKey) {
+        this.setUserMasterKey(SymmetricEncryption.encryptWithApplicationMasterKey(userMasterKey.getEncoded()));
+        this.setUserEncryptionKey(SymmetricEncryption.encrypt(userMasterKey, userEncryptionKey.getEncoded()));
+        this.setDsaPrivateKey(SymmetricEncryption.encrypt(userMasterKey, dsaKey.getPrivate().getEncoded()));
+        this.setDsaPublicKey(dsaKey.getPublic().getEncoded());
+        this.setRsaPrivateKey(SymmetricEncryption.encrypt(userMasterKey, rsaKey.getPrivate().getEncoded()));
+        this.setRsaPublicKey(rsaKey.getPublic().getEncoded());
     }
 
     public void changePassword(String newPassword) {
@@ -166,11 +172,60 @@ public class User {
         KeyPair newRsaKey = DigitalSignature.generateKeyPair(SignatureType.RSA);
 
         // upload all files
-        // TODO:
+        for (UploadedFile uploadedFile : this.getUploadedFiles()) {
+            updateFileWithNewKey(
+                    uploadedFile,
+                    newDsaKey.getPrivate(),
+                    newRsaKey.getPrivate(),
+                    newUserEncryptionKey,
+                    this.getUnencryptedUserEncryptionKey());
+        }
+
+        // store new keys
+        storeAndEncryptedAllKeys(
+                newUserMasterKey,
+                newUserEncryptionKey,
+                newDsaKey,
+                newRsaKey);
     }
 
-    private void updateFileWithNewKey(){
-        // TODO:
+    private void updateFileWithNewKey(
+            UploadedFile file,
+            PrivateKey newDsaPrivateKey,
+            PrivateKey newRsaPrivateKey,
+            SecretKey newEncryptionKey,
+            SecretKey oldEncryptionKey) {
+
+        // load file from disk
+        byte[] data = Storage.loadFileAsBytes(file.getIdentifier());
+
+        // decrypt data if necessary
+        if (file.isEncrypted()) {
+            data = SymmetricEncryption.decrypt(oldEncryptionKey, data);
+        }
+
+        // generate new signature
+        byte[] newSignature;
+        if (file.getSignatureType() == SignatureType.DSA) {
+            newSignature = DigitalSignature.sign(
+                    SignatureType.DSA,
+                    newDsaPrivateKey,
+                    data);
+        } else {
+            newSignature = DigitalSignature.sign(
+                    SignatureType.RSA,
+                    newRsaPrivateKey,
+                    data);
+        }
+        file.setSignature(newSignature);
+
+        // encrypt data if necessary
+        if (file.isEncrypted()) {
+            data = SymmetricEncryption.encrypt(newEncryptionKey, data);
+        }
+
+        // store data to disk
+        Storage.store(data, file.getIdentifier());
     }
 
     public Integer getUid() {
