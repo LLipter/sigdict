@@ -98,9 +98,11 @@
 
             <div class="w3-row">
                 <div class="w3-col m3 s12 w3-center">
-                    <p>
-                        <button class="w3-button w3-white w3-border" style="width:210px;"><b>CHANGE KEY</b></button>
-                    </p>
+                    <form method="post" th:action="@{/changekey}">
+                        <p>
+                            <button class="w3-button w3-white w3-border" style="width:210px;"><b>CHANGE KEY</b></button>
+                        </p>
+                    </form>
                 </div>
                 <div class="w3-col m3 s12 w3-center">
                     <p>

@@ -7,11 +7,10 @@ import com.llipter.sigdict.exception.BadRequestException;
 import com.llipter.sigdict.exception.InternalServerException;
 import com.llipter.sigdict.security.SignatureType;
 import com.llipter.sigdict.security.SymmetricEncryption;
-import com.llipter.sigdict.storage.StorageService;
 import com.llipter.sigdict.utility.PassMessage;
+import com.llipter.sigdict.utility.Storage;
 import com.llipter.sigdict.utility.ValidateInput;
 import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +29,6 @@ import java.security.PrivateKey;
 @Controller
 public class FileController extends SessionController {
 
-    private final StorageService storageService;
-
-    @Autowired
-    public FileController(StorageService storageService) {
-        this.storageService = storageService;
-    }
 
     @GetMapping(value = "/upload.html")
     public String getUploadPage(HttpServletRequest request,
@@ -104,7 +97,7 @@ public class FileController extends SessionController {
             if (encrypted) {
                 data = SymmetricEncryption.encrypt(user.getUnencryptedUserEncryptionKey(), data);
             }
-            storageService.store(data, uploadedFile.getIdentifier());
+            Storage.store(data, uploadedFile.getIdentifier());
         } catch (IOException e) {
             e.printStackTrace();
             throw new InternalServerException(ErrorMessage.CANNOT_SAVE_FILE, e);
@@ -138,7 +131,7 @@ public class FileController extends SessionController {
         }
 
         // delete file from server disk
-        storageService.remove(fileIdentifier);
+        Storage.remove(fileIdentifier);
 
         // delete record in database
         user.removeUploadedFileByIdentifier(fileIdentifier);
@@ -166,9 +159,9 @@ public class FileController extends SessionController {
 
         Resource file = null;
         if (uploadedFile.isEncrypted()) {
-            file = storageService.loadEncryptedAsResource(fileIdentifier, user.getUnencryptedUserEncryptionKey());
+            file = Storage.loadEncryptedAsResource(fileIdentifier, user.getUnencryptedUserEncryptionKey());
         } else {
-            file = storageService.loadUnencryptedAsResource(fileIdentifier);
+            file = Storage.loadUnencryptedAsResource(fileIdentifier);
         }
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + uploadedFile.getFilename() + "\"").body(file);

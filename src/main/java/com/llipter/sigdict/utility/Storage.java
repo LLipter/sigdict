@@ -1,14 +1,12 @@
-package com.llipter.sigdict.storage;
+package com.llipter.sigdict.utility;
 
 import com.llipter.sigdict.ErrorMessage;
 import com.llipter.sigdict.exception.InternalServerException;
 import com.llipter.sigdict.security.SymmetricEncryption;
 import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 
 import javax.crypto.SecretKey;
@@ -20,19 +18,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
-@Service
-public class FileSystemStorageService implements StorageService {
+public class Storage {
 
+    /**
+     * Folder location for storing files
+     */
+    private static final Path rootLocation = Paths.get("upload-dir");
 
-    private final Path rootLocation;
-
-    @Autowired
-    public FileSystemStorageService(StorageProperties properties) {
-        this.rootLocation = Paths.get(properties.getLocation());
-    }
-
-    @Override
-    public void init() {
+    public static void init() {
         try {
             Files.createDirectories(rootLocation);
         } catch (IOException e) {
@@ -40,8 +33,7 @@ public class FileSystemStorageService implements StorageService {
         }
     }
 
-    @Override
-    public void deleteAll() {
+    public static void deleteAll() {
         try {
             FileSystemUtils.deleteRecursively(rootLocation);
         } catch (IOException e) {
@@ -50,28 +42,25 @@ public class FileSystemStorageService implements StorageService {
         }
     }
 
-    @Override
-    public void store(byte[] data, String storedFilename) {
+    public static void store(byte[] data, String storedFilename) {
         try {
-            Files.write(this.rootLocation.resolve(storedFilename), data, StandardOpenOption.CREATE);
+            Files.write(rootLocation.resolve(storedFilename), data, StandardOpenOption.CREATE);
         } catch (IOException e) {
             e.printStackTrace();
             throw new InternalServerException(ErrorMessage.CANNOT_SAVE_FILE, e);
         }
     }
 
-    @Override
-    public void remove(String storedFilename) {
+    public static void remove(String storedFilename) {
         try {
-            FileSystemUtils.deleteRecursively(this.rootLocation.resolve(storedFilename));
+            FileSystemUtils.deleteRecursively(rootLocation.resolve(storedFilename));
         } catch (IOException e) {
             e.printStackTrace();
             throw new InternalServerException(ErrorMessage.CANNOT_DELETE_FILE, e);
         }
     }
 
-    @Override
-    public Resource loadUnencryptedAsResource(String identifier) {
+    public static Resource loadUnencryptedAsResource(String identifier) {
         try {
             Path file = rootLocation.resolve(identifier);
             Resource resource = new UrlResource(file.toUri());
@@ -86,10 +75,9 @@ public class FileSystemStorageService implements StorageService {
         }
     }
 
-    @Override
-    public Resource loadEncryptedAsResource(String identifier, SecretKey key) {
+    public static Resource loadEncryptedAsResource(String identifier, SecretKey key) {
         try {
-            Resource resource = this.loadUnencryptedAsResource(identifier);
+            Resource resource = loadUnencryptedAsResource(identifier);
             InputStream inputStream = resource.getInputStream();
             byte[] encryptedData = IOUtils.toByteArray(inputStream);
             byte[] unencryptedData = SymmetricEncryption.decrypt(key, encryptedData);
@@ -99,5 +87,4 @@ public class FileSystemStorageService implements StorageService {
             throw new InternalServerException("Could not read file: " + identifier, e);
         }
     }
-
 }

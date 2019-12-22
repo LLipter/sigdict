@@ -1,11 +1,9 @@
 package com.llipter.sigdict;
 
-import com.llipter.sigdict.storage.StorageProperties;
-import com.llipter.sigdict.storage.StorageService;
+import com.llipter.sigdict.utility.Storage;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
 /**
@@ -21,7 +19,6 @@ import org.springframework.context.annotation.Bean;
  * letting it find the controllers.
  */
 @SpringBootApplication
-@EnableConfigurationProperties(StorageProperties.class)
 public class SigdictApplication {
 
 
@@ -35,11 +32,11 @@ public class SigdictApplication {
      * after the application context has been loaded.
      */
     @Bean
-    CommandLineRunner init(StorageService storageService) {
+    CommandLineRunner init() {
         return (args) -> {
 //            System.out.println("Working Directory = " + System.getProperty("user.dir"));
-            storageService.deleteAll();
-            storageService.init();
+            Storage.deleteAll();
+            Storage.init();
         };
     }
 

@@ -158,6 +158,21 @@ public class User {
         return Arrays.equals(hashedPassword, this.getHashedPassword());
     }
 
+    public void changeKey() {
+        // generate new keys
+        SecretKey newUserMasterKey = SymmetricEncryption.generateKey();
+        SecretKey newUserEncryptionKey = SymmetricEncryption.generateKey();
+        KeyPair newDsaKey = DigitalSignature.generateKeyPair(SignatureType.DSA);
+        KeyPair newRsaKey = DigitalSignature.generateKeyPair(SignatureType.RSA);
+
+        // upload all files
+        // TODO:
+    }
+
+    private void updateFileWithNewKey(){
+        // TODO:
+    }
+
     public Integer getUid() {
         return uid;
     }
