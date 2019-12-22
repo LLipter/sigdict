@@ -47,8 +47,14 @@ public class LoginController extends SessionController {
         }
 
         // login successfully
-        // set new session
-        user.setSession(new Session(user));
+        Session session = user.getSession();
+        if(session == null){
+            // set new session
+            user.setSession(new Session(user));
+        }else{
+            session.refresh();
+        }
+
         // set cookie
         Session.setSessionCookie(response, user.getSession().getSessionId());
         userRepository.save(user);

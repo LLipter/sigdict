@@ -65,6 +65,11 @@ public class Session {
         response.addCookie(cookie);
     }
 
+    public void refresh() {
+        this.setValidThrough(getRefreshedValidThrough());
+        this.setSessionId(generateSessionId());
+    }
+
     public Integer getUid() {
         return uid;
     }
