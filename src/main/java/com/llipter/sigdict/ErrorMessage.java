@@ -81,6 +81,8 @@ public class ErrorMessage {
 
     public static final String EMAIL_INCORRECT = "EMAIL INCORRECT";
 
+    public static final String EMAIL_NOT_VERIFIED = "EMAIL NOT VERIFIED";
+
     public static final String PASSWORD_RESET = "Your password has been reset. " +
             "Please get back to our index and sign in again.";
 

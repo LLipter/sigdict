@@ -110,6 +110,12 @@ public class PasswordController extends SessionController {
             return "redirect:/forgetpassword.html";
         }
 
+        // email not verified
+        if (!user.isVerified()) {
+            PassMessage.addRedirectAttributesErrorMessage(redirectAttributes, ErrorMessage.EMAIL_NOT_VERIFIED);
+            return "redirect:/forgetpassword.html";
+        }
+
         // invalidate existing token
         ResetPasswordToken resetPasswordToken = user.getResetPasswordToken();
         if (resetPasswordToken != null) {
