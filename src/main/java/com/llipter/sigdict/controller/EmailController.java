@@ -1,11 +1,11 @@
 package com.llipter.sigdict.controller;
 
 import com.llipter.sigdict.ErrorMessage;
+import com.llipter.sigdict.email.AsyncEmailService;
 import com.llipter.sigdict.entity.User;
 import com.llipter.sigdict.entity.VerificationToken;
 import com.llipter.sigdict.exception.BadRequestException;
 import com.llipter.sigdict.repository.VerificationTokenRepository;
-import com.llipter.sigdict.utility.EmailHelper;
 import com.llipter.sigdict.utility.PassMessage;
 import com.llipter.sigdict.utility.Utility;
 import com.llipter.sigdict.utility.ValidateInput;
@@ -25,6 +25,13 @@ public class EmailController extends SessionController {
 
     @Autowired
     protected VerificationTokenRepository verificationTokenRepository;
+
+    private final AsyncEmailService asyncEmailService;
+
+    @Autowired
+    public EmailController(AsyncEmailService asyncEmailService) {
+        this.asyncEmailService = asyncEmailService;
+    }
 
     @GetMapping(value = "/verifyemail")
     public String verifyEmail(HttpServletRequest request,
@@ -52,7 +59,8 @@ public class EmailController extends SessionController {
         userRepository.save(user);
 
         // send email
-        EmailHelper.sendVerificagionEmail(user.getUsername(),
+        asyncEmailService.sendVerificationEmail(
+                user.getUsername(),
                 user.getEmail(),
                 Utility.getBaseUrlFromRequest(request),
                 user.getVerificationToken().getToken());

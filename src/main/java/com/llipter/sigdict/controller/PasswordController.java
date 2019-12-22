@@ -1,11 +1,11 @@
 package com.llipter.sigdict.controller;
 
 import com.llipter.sigdict.ErrorMessage;
+import com.llipter.sigdict.email.AsyncEmailService;
 import com.llipter.sigdict.entity.ResetPasswordToken;
 import com.llipter.sigdict.entity.User;
 import com.llipter.sigdict.exception.BadRequestException;
 import com.llipter.sigdict.repository.ResetPasswordTokenRepository;
-import com.llipter.sigdict.utility.EmailHelper;
 import com.llipter.sigdict.utility.PassMessage;
 import com.llipter.sigdict.utility.Utility;
 import com.llipter.sigdict.utility.ValidateInput;
@@ -25,6 +25,13 @@ public class PasswordController extends SessionController {
 
     @Autowired
     protected ResetPasswordTokenRepository resetPasswordTokenRepository;
+
+    private final AsyncEmailService asyncEmailService;
+
+    @Autowired
+    public PasswordController(AsyncEmailService asyncEmailService) {
+        this.asyncEmailService = asyncEmailService;
+    }
 
 
     @GetMapping(value = "/changepassword.html")
@@ -127,7 +134,8 @@ public class PasswordController extends SessionController {
         userRepository.save(user);
 
         // send reset email
-        EmailHelper.sendResetPasswordEmail(username,
+        asyncEmailService.sendResetPasswordEmail(
+                username,
                 email,
                 Utility.getBaseUrlFromRequest(request),
                 resetPasswordToken.getToken());

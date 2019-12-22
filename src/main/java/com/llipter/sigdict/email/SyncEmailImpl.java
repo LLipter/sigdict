@@ -1,14 +1,15 @@
-package com.llipter.sigdict.utility;
+package com.llipter.sigdict.email;
 
 import com.llipter.sigdict.ErrorMessage;
 import com.llipter.sigdict.exception.InternalServerException;
+import com.llipter.sigdict.utility.Utility;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-public class EmailHelper {
+public class SyncEmailImpl {
     private static final String username = "sigdict@gmail.com";
     private static final String password = "SIGDICT2020";
     private static final String fromEmail = "sigdict@gmail.com";
@@ -61,7 +62,7 @@ public class EmailHelper {
         return verificationUrl;
     }
 
-    public static void sendVerificagionEmail(String fromUsername, String toEmail, String baseUrl, String token) {
+    public static void sendVerificationEmail(String fromUsername, String toEmail, String baseUrl, String token) {
         String fullUrl = generateVerificationUrl(baseUrl, token);
         String content = getVerificationEmailContent(fromUsername, fullUrl);
         sendEmail(toEmail, VERIFICATION_EMAIL_SUBJECT, content);

@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * @SpringBootApplication is a convenience annotation that adds all of the following:
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Bean;
  * letting it find the controllers.
  */
 @SpringBootApplication
+@EnableAsync
 public class SigdictApplication {
 
 
